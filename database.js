@@ -18,3 +18,5 @@ const fetchEventByUrl = url => {
   .then(res => res.rows[0])
   .catch(err => console.log(err.message));
 };
+
+module.exports = { fetchEventByUrl };
