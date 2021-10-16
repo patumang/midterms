@@ -6,6 +6,8 @@
 
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
   <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+    integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
   <link rel="stylesheet" href="/styles/main.css" type="text/css" />
   <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
 
@@ -14,7 +16,50 @@
 </head>
 
 <body>
-  <h1>Have fun! 🥔</h1>
+  <header class="main-header">
+    <span>Schoodle</span>
+    <a href="#" role="button">Create New Event</a>
+  </header>
+
+  <div class="form-container">
+    <h1 class="form-title">Create Event</h1>
+    <form>
+      <div class="form-group">
+        <input type="text" class="form-control" name="event_title" placeholder="Event Title">
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control" name="event_desc" placeholder="Event Description">
+      </div>
+      <br />
+      <div class="form-group">
+        <input type="text" class="form-control" name="organizer_name" placeholder="Organizer Name">
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control" name="organizer_email" placeholder="Organizer Email">
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control" name="event_venue" placeholder="Venue">
+      </div>
+
+      <br />
+      <button type="submit" class="btn" id="add_timings"  name="add_timings">Add Timings</button>
+
+      <br />
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="event_link_for_self" name="event_link_for_self" checked>
+        <label class="form-check-label" for="event_link_for_self">
+          Send event link to my email
+        </label>
+      </div>
+
+      <br />
+      <button type="submit" class="btn" id="create_event" name="create_event">Create Event</button>
+
+    </form>
+  </div>
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 
 </html>
