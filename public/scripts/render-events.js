@@ -1,11 +1,15 @@
 $().ready(() => {
 
+  const path = $(location).attr('pathname');
+
+  console.log(path);
+
   // get event row via query
   const getEvent = () => {
 
-    $.get('/api/events/123456', null, (data, err) => {
+    $.get(`/api${path}`, null, (data, err) => {
 
-      console.log('data', data.events['0']);
+      console.log('data', data.events);
 
     });
   };
