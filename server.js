@@ -52,6 +52,18 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
+app.get("/events/new", (req, res) => {
+  res.render("index");
+});
+
+app.post("/events", (req, res) => {
+  console.log(req.body);
+  //Insert pull queries
+  //unique key
+  //send resoponses
+  res.json({answer: "success"});
+});
+
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });
