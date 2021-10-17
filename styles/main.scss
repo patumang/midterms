@@ -1,17 +1,30 @@
+/* colors */
 $color-primary: #2a9d8f;
 $color-secondary: #f4a261;
 $color-white: #fff;
+$color-black: #000;
 $color-gray-light: #e9ecef;
 $color-gray-dark: #adb5bd;
 
+body {
+  font-family: 'Cairo', sans-serif;
+}
+
 .main-header {
+  background-color: $color-primary;
+  color: $color-white;
+}
+.header-container {
   height: 100px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 200px;
-  background-color: $color-primary;
-  color: $color-white;
+  /* padding: 10px 200px; */
+
+  .logo {
+    font-size: 32px;
+    font-family: 'Pacifico', cursive;
+  }
 
   a {
     text-decoration: none;
@@ -19,39 +32,40 @@ $color-gray-dark: #adb5bd;
   }
 }
 
-.form-container {
-  margin: 20px 200px;
-  background-color: $color-gray-light;
-  padding: 10px;
+.create-event-container {
+  border: solid 1px $color-gray-dark;
+  padding: 20px 10px;
   border-radius: 10px;
 
   .form-title {
     text-align: center;
     color: $color-primary;
+    font-weight: 600;
   }
 
   form {
-    padding: 10px 100px;
+    padding: 0 100px;
 
     input[type=text] {
       border: 0;
+      border-radius: 0;
       margin-top: 20px;
       background-color: transparent;
       resize: none;
       outline: none;
-      border-bottom: 1px solid black;
+      border-bottom: 1px solid $color-gray-dark;
     }
 
-    #add_timings {
-      margin: 20px 0;
-      background-color: $color-secondary;
-      color: $color-white;
-    }
+    .timings_container {
 
-    #create_event {
-      margin: 20px 0;
-      background-color: $color-primary;
-      color: $color-white;
+      .time-slot {
+        display: flex;
+        gap: 10px;
+
+        > * {
+          flex: 1;
+        }
+      }
     }
   }
 }
