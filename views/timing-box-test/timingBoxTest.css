@@ -1,0 +1,30 @@
+.date-container {
+  display: flex;
+  flex-direction: column;
+  width: 120px;
+  outline: 3px black;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+
+}
+
+.date-time-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border:2px solid black;
+
+}
+
+.form-check {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  border:2px solid black;
+  padding-bottom: 3px;
+}
