@@ -21,4 +21,5 @@ const fetchEventByUrl = url => {
   .catch(err => console.log(err.message));
 };
 
+
 module.exports = { fetchEventByUrl };

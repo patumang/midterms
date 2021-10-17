@@ -23,7 +23,7 @@ CREATE TABLE visitors (
 CREATE TABLE timings (
   id SERIAL PRIMARY KEY NOT NULL,
   event_id INTEGER REFERENCES events(id) ON DELETE CASCADE,
-  date DATE NOT NULL,
+  date VARCHAR(255) NOT NULL,
   start_time VARCHAR(255) NOT NULL,
   end_time VARCHAR(255) NOT NULL
 );
