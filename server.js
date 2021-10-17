@@ -54,6 +54,7 @@ app.use("/api/events", eventsRoutes(db));
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
 
+// '*' to catch most get requests;
 app.get("/*", (req, res) => {
   res.render("index");
 });
@@ -63,7 +64,7 @@ app.get("/events/new", (req, res) => {
 });
 
 app.post("/events", (req, res) => {
-  console.log(req.body);
+  console.log('this', req.body);
   //Insert pull queries
   //unique key
   //send resoponses
