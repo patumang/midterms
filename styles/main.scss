@@ -1,11 +1,4 @@
-/* colors */
-$color-primary: #2a9d8f;
-$color-secondary: #f4a261;
-$color-white: #fff;
-$color-black: #000;
-$color-gray-light: #e9ecef;
-$color-gray-dark: #adb5bd;
-
+@import 'colors';
 body {
   font-family: 'Cairo', sans-serif;
 }
@@ -32,40 +25,6 @@ body {
   }
 }
 
-.create-event-container {
-  border: solid 1px $color-gray-dark;
-  padding: 20px 10px;
-  border-radius: 10px;
-
-  .form-title {
-    text-align: center;
-    color: $color-primary;
-    font-weight: 600;
-  }
-
-  form {
-    padding: 0 100px;
-
-    input[type=text] {
-      border: 0;
-      border-radius: 0;
-      margin-top: 20px;
-      background-color: transparent;
-      resize: none;
-      outline: none;
-      border-bottom: 1px solid $color-gray-dark;
-    }
-
-    .timings_container {
-
-      .time-slot {
-        display: flex;
-        gap: 10px;
-
-        > * {
-          flex: 1;
-        }
-      }
-    }
-  }
+.error {
+  color: $color-red;
 }

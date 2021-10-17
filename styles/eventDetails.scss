@@ -1,0 +1,12 @@
+@import 'colors';
+.unique-link-container {
+  border: solid 1px $color-gray-dark;
+  padding: 20px 10px;
+  border-radius: 10px;
+
+  h3 {
+    text-align: center;
+    color: $color-primary;
+    font-weight: 600;
+  }
+}
