@@ -55,8 +55,12 @@ app.get("/", (req, res) => {
 app.get("/events/new", (req, res) => {
   res.render("index");
 });
+
 app.post("/events", (req, res) => {
   console.log(req.body);
+  //Insert pull queries
+  //unique key
+  //send resoponses
   res.json({answer: "success"});
 });
 
