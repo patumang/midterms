@@ -11,11 +11,23 @@ const changeURL = (next) => {
 };
 
 $(() => {
-  if ($(location).attr("pathname") !== "/events/new") {
+
+  const timingsLimit = 5;
+  let timingsCounter = 0;
+
+  if ($(location).attr("pathname") === "/") {
     $(".create-event-container").hide();
+    $(".event-details-container").hide();
+  } else if ($(location).attr("pathname") === "/events/new") {
+    $(".create-event-container").show();
+    $(".event-details-container").hide();
+  } else {
+    $(".create-event-container").hide();
+    $(".event-details-container").show();
   }
 
   $("#toggle-create-event-container").click(function() {
+    $(".event-details-container").hide();
     changeURL({
       url: 'http://localhost:8080/events/new',
       title: 'Create New Event'
@@ -24,6 +36,13 @@ $(() => {
   });
 
   $("#add_timings").click(function() {
+
+    if (timingsCounter >= 5) {
+      $(".timings_error").html(`You exceeded limit of ${timingsLimit}`);
+      return;
+    }
+    $(".timings_error").html();
+
     const $createTimeSlot = $("<div>").addClass("form-row mt-2 time-slot");
     const $timeSlotDate = $("<input>").attr({
       name: "time_slot_date",
@@ -43,6 +62,7 @@ $(() => {
 
     $createTimeSlot.append($timeSlotDate, $timeSlotStartTime, $timeSlotEndTime);
     $(".timings_container").append($createTimeSlot);
+    timingsCounter++;
   });
 
 
