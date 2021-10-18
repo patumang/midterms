@@ -1,4 +1,11 @@
 @import 'colors';
+
+/* .event-details-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+} */
+
 .unique-link-container {
   border: solid 1px $color-gray-dark;
   padding: 20px 10px;
@@ -17,6 +24,7 @@
 
     span {
       padding: 5px 10px;
+      background-color: $color-gray-light;
       border: solid 1px $color-gray-dark;
 
       &:hover {
@@ -27,5 +35,64 @@
     .lbl-unique-link {
       flex: 1;
     }
+  }
+}
+
+.responses-container {
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  .responses-table {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    background-color: $color-gray-light;
+
+    .responses-table-header {
+      display: flex;
+
+      .responses-header-cell {
+        border: solid 1px $color-gray-dark;
+        flex: 1;
+        font-weight: 600;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+        .responses-header-day {
+          font-size: 32px;
+          font-weight: 700;
+        }
+
+        .responses-header-month, .responses-header-year {
+          font-size: 18px;
+        }
+
+        .responses-header-start-time, .responses-header-end-time {
+          font-size: 12px;
+        }
+      }
+    }
+
+    .responses-row-total-votes, .responses-row-votes{
+      display: flex;
+
+      .col-header {
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      .cell {
+        border: solid 1px $color-gray-dark;
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+
   }
 }
