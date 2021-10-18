@@ -27,11 +27,17 @@ module.exports = db => {
   };
 
   const fetchVisitorsByEventId = event_id => {
-    queryString = `
-    SELECT visitor_name, visitor_email, id
-    FROM visitors
-    WHERE event_id = $1;
-    `;
+    const queryString = `
+      SELECT visitor_name, visitor_email, response, visitors.id as id
+      FROM visitors
+      JOIN responses on (visitor_id = visitors.id)
+      WHERE event_id = $1
+      ORDER BY timing_id;`
+    // queryString = `
+    // SELECT visitor_name, visitor_email, id
+    // FROM visitors
+    // WHERE event_id = $1;
+    // `;
     const queryParams = [ event_id ];
 
     return db.query(queryString, queryParams)
