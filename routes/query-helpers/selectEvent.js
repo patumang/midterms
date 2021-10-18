@@ -1,3 +1,4 @@
+// fetch event via unique_url
 module.exports = (db, url) => {
   queryString = `
     SELECT * FROM events
