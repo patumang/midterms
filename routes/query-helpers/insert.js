@@ -47,8 +47,7 @@ module.exports = db => {
         promises.push(db.query(queryString, queryParams));
       }
       Promise.all(promises)
-      .catch((err) => console.log(err.message))
-      .finally(() => db.end());
+      .catch((err) => console.log(err.message));
     } else {
       const queryParams = [
         eventID,
