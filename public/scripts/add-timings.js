@@ -4,8 +4,8 @@ $(() => {
   let timingsCounter = 0;
 
 
-  $("#add_timings").click(function() {
 
+  $("#add_timings").click(function() {
     //destroy datepicker so it can select newly created time_slot_date box
     $(".time-slot-date").datepicker("destroy");
 
@@ -20,7 +20,7 @@ $(() => {
     }
     $(".timings_error").html();
 
-    const $createTimeSlot = $("<div>").addClass("form-row mt-2 time-slot");
+    const $createTimeSlot = $("<div>").addClass("form-row mt-2 time-slot").attr("id", `${timingsCounter + 1}`);
     const $timeSlotDate = $("<input>").attr({
       name: "time_slot_date",
       class: "col-md-6 time-slot-date",
@@ -41,14 +41,29 @@ $(() => {
     $createTimeSlot.append($timeSlotDate, $timeSlotStartTime, $timeSlotEndTime);
     $(".timings_container").append($createTimeSlot);
     timingsCounter++;
+    console.log("add- timingscounter:", timingsCounter)
 
     // initialize datepicker
     $(".time-slot-date").datepicker({
       showAnim: "fadeIn",
       dateFormat: "yy-mm-dd"
     });
+
+    $("#remove_timings").removeAttr("hidden");
+
   });
 
 
-  });
+  $("#remove_timings").on("click",function() {
+
+    $(`#${timingsCounter}`).remove()
+    timingsCounter--;
+
+    if(timingsCounter === 0) {
+      $("#remove_timings").attr("hidden", "true")
+    }
+
+  })
+
+});
 
