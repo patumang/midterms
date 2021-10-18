@@ -15,7 +15,7 @@ module.exports = (db) => {
     const url = req.params.url;
     selectEvent(db, url)
       .then(event => {
-        api.push(event.rows);
+        api.push(event.rows[0]);
         const event_id = event.rows[0].id;
         return selectTimings(db, event_id);
       })
