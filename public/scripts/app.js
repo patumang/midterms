@@ -30,6 +30,7 @@ $(() => {
     const serializedData = $(this).serialize();
     $.post("/api/events", serializedData)
       .then((res) => {
+        $form.trigger("reset");
         changeURL({
           url: 'http://localhost:8080/unique_id',
           title: 'Event Details'
