@@ -30,6 +30,7 @@ CREATE TABLE timings (
 
 CREATE TABLE responses (
   id SERIAL PRIMARY KEY NOT NULL,
-  timings_id INTEGER REFERENCES timings(id) ON DELETE CASCADE,
-  visitor_id INTEGER REFERENCES visitors(id) ON DELETE CASCADE
+  timing_id INTEGER REFERENCES timings(id) ON DELETE CASCADE,
+  visitor_id INTEGER REFERENCES visitors(id) ON DELETE CASCADE,
+  response BOOLEAN DEFAULT 'no'
 );
