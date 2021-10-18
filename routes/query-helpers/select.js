@@ -1,3 +1,6 @@
+/* eslint-disable indent */
+/* eslint-disable camelcase */
+/* eslint-disable no-undef */
 module.exports = db => {
 
   const fetchEventsByUrl = url => {
@@ -16,7 +19,7 @@ module.exports = db => {
 
   const fetchTimingsByEventId = event_id => {
     queryString = `
-    SELECT *
+    SELECT id as timingId, date, start_time as startTime, end_time as endTime
     FROM timings
     WHERE event_id = $1;
     `;
@@ -48,7 +51,7 @@ module.exports = db => {
     `;
     const queryParams = [ visitor_id ];
 
-    console.log(visitor_id);
+    /* console.log(visitor_id); */
     return db.query(queryString, queryParams)
     .catch(err => console.log(err.message));
   }

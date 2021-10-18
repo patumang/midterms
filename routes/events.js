@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const { json } = require('express');
 const express = require('express');
 const router  = express.Router();
@@ -20,28 +21,33 @@ module.exports = (db) => {
   router.get('/:url', (req, res) => {
     const api = [];
     const url = req.params.url;
+    let eventApi = {};
+    let event_id;
 
     fetchEventsByUrl(url)
       .then(event => {
         console.log('fetchEventsByUrl complete');
+        eventApi["event_details"] = event.rows[0];
         api.push(event.rows[0]);
-        const event_id = event.rows[0].id;
+        event_id = event.rows[0].id;
         return fetchTimingsByEventId(event_id);
       })
       .then(timing => {
         console.log('fetchTimings complete');
+        eventApi["timeSlots"] = timing.rows;
+        console.log(eventApi);
         api.push(timing.rows);
         const event_id = timing.rows[0].event_id;
-        console.log('event_id', event_id)
+        /* console.log('event_id', event_id) */
         return fetchVisitorsByEventId(event_id);
       })
       .then(visitors => {
         console.log('fetchVisitors complete')
-        console.log('visitor', visitors.rows);
+        //console.log('visitor', visitors.rows);
         const promises = [];
 
         for (const visitor of visitors.rows) {
-          console.log('visitor id', visitor.id);
+          /* console.log('visitor id', visitor.id);
 
           console.log('for loop');
           fetchResponses(visitor.id)
@@ -52,7 +58,7 @@ module.exports = (db) => {
             visitors.rows.response = response.rows.response;
             api.push(visitor.rows);
             console.log('in loop api', api);
-          });
+          }); */
         }
 
         // Promise.all(promises)
