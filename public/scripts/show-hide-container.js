@@ -1,4 +1,36 @@
 /* eslint-disable no-undef */
+
+const getEventData = (path) => {
+  $.get(`/api${path}`, null)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+
+const postVisitorResponses = function() {
+  const updatedResponses = [];
+  $(".cell").each(function(index) {
+    if ($(this).children().is("input[type='checkbox']")) {
+      updatedResponses.push({
+        visitorId: $(this).attr("data-visitor"),
+        timingId: $(this).attr("data-timing"),
+        answer: $(this).children().prop("checked")
+      });
+    }
+  });
+  $.post("/api/responses", updatedResponses)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 const createGrid = (responses) => {
   const $responsesTable = $(".responses-table");
 
@@ -44,11 +76,16 @@ const createGrid = (responses) => {
     $votesRow.append($responsesVotesCell);
 
     for (const ans of visitor.answers) {
-      const $responsesVotesCell = $("<div>").addClass("cell");
+      const $responsesVotesCell = $("<div>").attr({
+        "class": "cell",
+        "data-visitor": visitor.visitorId,
+        "data-timing": ans.timingId
+      })
+      ;
 
       const $voteCheckbox = $("<input>").attr({
         type: 'checkbox',
-        checked: ans
+        checked: ans.answer
       });
 
       $responsesVotesCell.append($voteCheckbox);
@@ -62,9 +99,10 @@ const createGrid = (responses) => {
   const $responsesContainer = $(".responses-container");
   $responsesContainer.append(`
       <div class="form-group text-center  mt-4">
-        <button type="submit" class="btn btn-outline-success btn-lg" name="send_response">Send</button>
+        <button type="submit" class="btn btn-outline-success btn-lg" id="send_response" name="send_response">Send</button>
       </div>
     `);
+  $("#send_response").click(postVisitorResponses);
 };
 
 $(() => {
@@ -72,16 +110,16 @@ $(() => {
   //temporary
   const responses = {
     timeSlots: [
-      { date: "Oct 12 2021", startTime: "10:00AM", endTime: "11:00AM" },
-      { date: "Oct 13 2021", startTime: "1:00PM", endTime: "2:00PM" },
-      { date: "Oct 15 2021", startTime: "11:00AM", endTime: "12:00PM" },
-      { date: "Oct 19 2021", startTime: "2:00PM", endTime: "3:00PM" }
+      { timingId: 1, date: "Oct 12 2021", startTime: "10:00AM", endTime: "11:00AM" },
+      { timingId: 2, date: "Oct 13 2021", startTime: "1:00PM", endTime: "2:00PM" },
+      { timingId: 3, date: "Oct 15 2021", startTime: "11:00AM", endTime: "12:00PM" },
+      { timingId: 4, date: "Oct 19 2021", startTime: "2:00PM", endTime: "3:00PM" }
     ],
     totalVotes: [3, 2, 0, 1],
     visitors: [
-      { name: "visitor1", answers: [true, true, false, false] },
-      { name: "visitor2", answers: [true, true, false, true] },
-      { name: "visitor3", answers: [true, false, false, false] }
+      { visitorId: 1, name: "visitor1", answers: [{ timingId: 1, answer: true }, { timingId: 2, answer: true }, { timingId: 3, answer: false }, { timingId: 4, answer: false }] },
+      { visitorId: 2, name: "visitor2", answers: [{ timingId: 1, answer: true }, { timingId: 2, answer: true }, { timingId: 3, answer: false }, { timingId: 4, answer: true }] },
+      { visitorId: 3, name: "visitor3", answers: [{ timingId: 1, answer: true }, { timingId: 2, answer: false }, { timingId: 3, answer: false }, { timingId: 4, answer: false }] }
     ]
   };
 
@@ -93,7 +131,14 @@ $(() => {
     $(".event-details-container").hide();
   } else {
     $(".create-event-container").hide();
-    $(".event-details-container").show();
-    createGrid(responses);
+    const path = $(location).attr("pathname").split("/");
+    console.log(path);
+    if (path[1] !== 'events' || path.length !== 3) {
+      $(".event-details-container").html("Invalid Event link!");
+    } else {
+      getEventData($(location).attr("pathname"));
+      $(".event-details-container").show();
+      createGrid(responses);
+    }
   }
 });
