@@ -1,7 +1,10 @@
 const express = require('express');
 const router  = express.Router();
+const insert = require('./helpers/insert');
 
 module.exports = (db) => {
+
+  const { insertAllInDb } = insert(db);
 
   // fetch event by url via query; create json
   router.get('/:url', (req, res) => {
@@ -23,36 +26,43 @@ module.exports = (db) => {
   }); // note: change query to not display more than necessary
 
   router.post('/', (req, res) => {
-    const uniqueUrl = Math.random().toString(36).substring(2, 8);
 
-    const queryString = `
-    INSERT INTO events (
-      title,
-      description,
-      creator_name,
-      creator_email,
-      venue,
-      unique_url
-      )
-      VALUES ($1, $2, $3, $4, $5, $6);
-    `;
+    insertAllInDb(req.body);
 
-    const queryParams = [
-      req.body.event_title,
-      req.body.event_desc,
-      req.body.organizer_name,
-      req.body.organizer_email,
-      req.body.event_venue,
-      uniqueUrl
-    ];
+    // const uniqueUrl = Math.random().toString(36).substring(2, 18);
 
-    db.query(queryString, queryParams)
-    .then(() => console.log('query complete'))
-    .catch(err => {
-      res
-        .status(500)
-        .send(err.message);
-    });
+    // const queryString = `
+    // INSERT INTO events (
+    //   title,
+    //   description,
+    //   creator_name,
+    //   creator_email,
+    //   venue,
+    //   unique_url
+    //   )
+    //   VALUES ($1, $2, $3, $4, $5, $6)
+    //   RETURNING id;
+    // `;
+
+    // const queryParams = [
+    //   req.body.event_title,
+    //   req.body.event_desc,
+    //   req.body.organizer_name,
+    //   req.body.organizer_email,
+    //   req.body.event_venue,
+    //   uniqueUrl
+    // ];
+
+    // db.query(queryString, queryParams)
+    // .then(res => {
+    //   console.log(res, '\nquery complete')
+    // })
+    // .catch(err => {
+    //   res
+    //     .status(500)
+    //     .send(err.message);
+    // });
+
   });
 
   return router;
