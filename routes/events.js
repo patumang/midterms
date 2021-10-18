@@ -38,11 +38,32 @@ module.exports = (db) => {
       .then(visitors => {
         console.log('fetchVisitors complete')
         console.log('visitor', visitors.rows);
+        const promises = [];
+
+        for (const visitor of visitors.rows) {
+          console.log('visitor id', visitor.id);
+
+          console.log('for loop');
+          fetchResponses(visitor.id)
+          .then(response => {
+            console.log('response', response.rows.response);
+            console.log('visitors', visitors.rows.response);
+
+            visitors.rows.response = response.rows.response;
+            api.push(visitor.rows);
+            console.log('in loop api', api);
+          });
+        }
+
+        // Promise.all(promises)
+        // .then(res => console.log('all', res))
+        // .catch(err => console.log(err.message));
+
+        // console.log('after loop', visitors.rows);
         // api.push(visitors.rows);
         // const visitor_id = visitor.rows.id;
         // return fetchResponses
         // for (const visitor)
-        console.log('API', api);
         return api;
       })
       .catch(err => console.log(err.message));

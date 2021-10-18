@@ -48,6 +48,7 @@ module.exports = db => {
     `;
     const queryParams = [ visitor_id ];
 
+    console.log(visitor_id);
     return db.query(queryString, queryParams)
     .catch(err => console.log(err.message));
   }
