@@ -1,3 +1,6 @@
+/* eslint-disable indent */
+/* eslint-disable camelcase */
+/* eslint-disable no-undef */
 module.exports = db => {
 
   const fetchEventsByUrl = url => {
@@ -12,54 +15,65 @@ module.exports = db => {
     return db.query(queryString, queryParams)
     .catch(err => console.log(err.message));
 
-  }
+  };
 
   const fetchTimingsByEventId = event_id => {
     queryString = `
-    SELECT *
+    SELECT id as timing_id, date, start_time, end_time
     FROM timings
-    WHERE event_id = $1;
+    WHERE event_id = $1
+    ORDER BY id;
     `;
     const queryParams = [ event_id ];
 
     return db.query(queryString, queryParams)
     .catch(err => console.log(err.message));
   };
+  const fetchTotalVotesByEventId = event_id => {
+    queryString = `
+    SELECT t.id as timing_id, count(r.*) as total_votes
+    FROM timings t
+      LEFT JOIN responses r ON r.timing_id = t.id
+    WHERE t.event_id = $1
+    GROUP BY t.id
+    ORDER BY t.id;
+    `;
+    const queryParams = [event_id];
+
+    return db.query(queryString, queryParams)
+      .catch(err => console.log(err.message));
+  };
 
   const fetchVisitorsByEventId = event_id => {
     const queryString = `
-      SELECT visitor_name, visitor_email, response, visitors.id as id
+      SELECT id as visitor_id, visitor_name
       FROM visitors
-      JOIN responses on (visitor_id = visitors.id)
       WHERE event_id = $1
-      ORDER BY timing_id;`
-    // queryString = `
-    // SELECT visitor_name, visitor_email, id
-    // FROM visitors
-    // WHERE event_id = $1;
-    // `;
+      ORDER BY id;`;
     const queryParams = [ event_id ];
 
     return db.query(queryString, queryParams)
     .catch(err => console.log(err.message));
-  }
+  };
 
   // fetch responses via visitor_id and timings_id
   // use two factor to be explicit; cannot implement; just use visitor_id
-  const fetchResponses= visitor_id => {
+  const fetchResponsesByEventId = event_id => {
     queryString = `
-    SELECT response
-    FROM responses
-    WHERE visitor_id = $1;
+    SELECT v.id as visitor_id, r.timing_id
+      FROM visitors v
+      JOIN responses r ON r.visitor_id = v.id
+    WHERE v.event_id = $1
+    ORDER BY v.id, r.timing_id;
     `;
-    const queryParams = [ visitor_id ];
+    const queryParams = [event_id];
 
-    console.log(visitor_id);
+    /* console.log(visitor_id); */
     return db.query(queryString, queryParams)
     .catch(err => console.log(err.message));
-  }
+  };
 
-  return { fetchEventsByUrl, fetchTimingsByEventId, fetchVisitorsByEventId, fetchResponses };
+  return { fetchEventsByUrl, fetchTimingsByEventId, fetchTotalVotesByEventId, fetchVisitorsByEventId, fetchResponsesByEventId };
 
   // const insertAllInDb = (body) => {
   //   insertEventInDb(body)

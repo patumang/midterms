@@ -4,6 +4,7 @@ const getEventData = (path) => {
   $.get(`/api${path}`, null)
     .then((res) => {
       console.log(res);
+      createGrid(res);
     })
     .catch((err) => {
       console.log(err);
@@ -138,7 +139,6 @@ $(() => {
     } else {
       getEventData($(location).attr("pathname"));
       $(".event-details-container").show();
-      createGrid(responses);
     }
   }
 });

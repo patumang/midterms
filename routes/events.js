@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-labels */
+/* eslint-disable indent */
+/* eslint-disable camelcase */
 const { json, response } = require('express');
 const express = require('express');
 const router  = express.Router();
@@ -11,41 +14,64 @@ module.exports = (db) => {
   const {
     fetchEventsByUrl,
     fetchTimingsByEventId,
+    fetchTotalVotesByEventId,
     fetchVisitorsByEventId,
-    fetchResponses
+    fetchResponsesByEventId
   } = select(db);
 
   // fetch event by url via query; create json
   router.get('/:url', (req, res) => {
-    const api = [];
     const url = req.params.url;
+    let api = {};
+    let event_id;
 
     const compileApi = url => {
 
       fetchEventsByUrl(url)
       .then(event => {
-        console.log('fetchEventsByUrl complete');
-        api.push(event.rows[0]);
-        const event_id = event.rows[0].id;
+        api["event_details"] = event.rows[0];
+        event_id = event.rows[0].id;
         return fetchTimingsByEventId(event_id);
       })
       .then(timing => {
-        console.log('fetchTimings complete');
-        api.push(timing.rows);
-        const event_id = timing.rows[0].event_id;
+        api["timeSlots"] = timing.rows;
+        return fetchTotalVotesByEventId(event_id);
+      })
+      .then(totalVotes => {
+        api["totalVotes"] = totalVotes.rows;
         return fetchVisitorsByEventId(event_id);
       })
       .then(visitors => {
-        const distinctVisitors = restructure(visitors.rows);
-        api.push(distinctVisitors);
-        res.json({api});
-
+        api["visitors"] = visitors.rows;
+        return fetchResponsesByEventId(event_id);
       })
-      .then(() => res.json({api}))
-      .catch(err => console.log(err.message));
-    }
+      .then(responses => {
 
-    compileApi(url)
+        const resGridData = [];
+        Loop1:
+        for (let visitor of api.visitors) {
+          const visitorResponse = {visitor_id: visitor.visitor_id, visitor_name: visitor.visitor_name, answers: []};
+          Loop2:
+          for (let timing of api.timeSlots) {
+            let answer = false;
+            Loop3:
+            for (let res of responses.rows) {
+              if (res.timing_id === timing.timing_id && res.visitor_id === visitor.visitor_id) {
+                answer = true;
+                break Loop3;
+              }
+            }
+            visitorResponse.answers.push({ timing_id: timing.timing_id, answer});
+          }
+          resGridData.push(visitorResponse);
+        }
+        api["responses"] = resGridData;
+      })
+      .then(() => res.json(api))
+      .catch(err => console.log(err.message));
+    };
+
+    compileApi(url);
     }); // end of GET
 
     // selectEvent(db, url)
