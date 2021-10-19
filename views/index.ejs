@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
   <link rel="stylesheet" href="/styles/createEvent.css" type="text/css" />
   <link rel="stylesheet" href="/styles/eventDetails.css" type="text/css" />
+  <link rel="stylesheet" href="/styles/appDesc.css" type="text/css" />
 
   <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
   <script type="text/javascript" src="/vendor/jquery-ui.js"></script>
@@ -44,8 +45,24 @@
     </div>
   </header>
 
+  <div class="container app-description my-4 col-lg-6 col-md-8 col-sm-10">
+    <div>
+      <!-- note: maybe switch this to a list if we want to include more info -->
+      <h1 class="form-title app-name">Welcome to Schoodle</h1>
+      <h4 class="description-text">Schoodle helps you seamlessly organize meeting. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h4>
+    </div>
+    <div class="container feature-description" id="feature-1">
+      <h5 class="feature-title">Create an event with specific times to chose from</h5>
+      <p class="feature-p">Select multiple suggested times to organize a meeting thats convenient for everyone </p>
+    </div>
+    <div class="container feature-description">
+      <h5 class="feature-title">Send out the unique url to invite participants</h5>
+      <p class="feature-p">Participants can choose their preffered times</p>
+    </div>
+  </div>
+
   <div class="container create-event-container my-4 col-lg-6 col-md-8 col-sm-10">
-    <h1 class="form-title">Create Event</h1>
+    <h1 class="form-title create-event">Create Event</h1>
     <form id="create-event-form">
       <div class="form-group">
         <input type="text" class="form-control" name="event_title" placeholder="Event Title">

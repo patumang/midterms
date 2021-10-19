@@ -15,6 +15,7 @@ $(() => {
 
   $("#toggle-create-event-container").click(function() {
     $(".event-details-container").hide();
+    $(".app-description").hide();
     changeURL({
       url: 'http://localhost:8080/events/new',
       title: 'Create New Event'
