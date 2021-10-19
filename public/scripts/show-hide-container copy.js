@@ -10,9 +10,6 @@ const getEventData = (path) => {
       $(".lbl-event-desc").html(res.event_details.description);
       createGrid(res);
     })
-    .then(() => {
-      startCheckBoxListener()
-    })
     .catch((err) => {
       console.log(err);
     });
@@ -32,57 +29,27 @@ const postVisitorResponses = function() {
       });
     }
   });
-
-  // const updatedResponses = [];
-  // $(".cell-old").each(function() {
-  //   if ($(this).children().is("input[type='checkbox']")) {
-  //     updatedResponses.push({
-  //       visitorId: $(this).attr("data-visitor"),
-  //       timingId: $(this).attr("data-timing"),
-  //       answer: $(this).children().prop("checked")
-  //     });
-  //   }
-  // });
-
+  const updatedResponses = [];
+  $(".cell-old").each(function() {
+    if ($(this).children().is("input[type='checkbox']")) {
+      updatedResponses.push({
+        visitorId: $(this).attr("data-visitor"),
+        timingId: $(this).attr("data-timing"),
+        answer: $(this).children().prop("checked")
+      });
+    }
+  });
   const uniqueId = $(location).attr("pathname").split("/")[2];
-  const responsesObj = {
-    uniqueId,
-    newVisitorName,
-    newResponses,
-    // updatedResponses
-  };
+  const responsesObj = { uniqueId, newVisitorName, newResponses, updatedResponses};
   console.log(responsesObj);
 
-  if (newVisitorName) {
-    $.post("/api/responses", responsesObj)
+  $.post("/api/responses", responsesObj)
     .then((res) => {
       console.log(res);
     })
     .catch((err) => {
       console.log(err);
     });
-  }
-
-};
-
-// accepts data from checkbox parent
-const updateResponses = (response) => {
-
-  const updatedResponses = [];
-
-  updatedResponses.push({
-    visitorId: $(response).attr("data-visitor"),
-    timingId: $(response).attr("data-timing"),
-    answer: $(response).children().prop("checked")
-  });
-
-  $.post('/api/responses/update', updatedResponses);
-};
-
-const startCheckBoxListener = () => {
-  $(".response-cbox").change((event) => {
-    updateResponses($(event.target).parent());
-  });
 };
 
 const createGrid = (gridData) => {
@@ -165,7 +132,6 @@ const createGrid = (gridData) => {
 
       const $voteCheckbox = $("<input>").attr({
         type: 'checkbox',
-        class: 'response-cbox',
         checked: ans.answer
       });
 
@@ -205,7 +171,6 @@ $(() => {
       $(".event-details-container").show();
     }
   }
-
 });
 
 /* {
