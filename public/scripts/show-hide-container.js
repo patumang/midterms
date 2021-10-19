@@ -4,6 +4,10 @@ const getEventData = (path) => {
   $.get(`/api${path}`, null)
     .then((res) => {
       console.log(res);
+      $(".lbl-unique-link").html(`http://localhost:8080/events/${res.event_details.unique_url}`);
+      $(".lbl-organizer").html(`Organizer: ${res.event_details.creator_name}`);
+      $(".lbl-venue").html(`Venue: ${res.event_details.venue}`);
+      $(".lbl-event-desc").html(res.event_details.description);
       createGrid(res);
     })
     .catch((err) => {
@@ -13,8 +17,20 @@ const getEventData = (path) => {
 
 
 const postVisitorResponses = function() {
+  let newVisitorName = "";
+  const newResponses = [];
+  $(".cell-new").each(function() {
+    if ($(this).children().is("input[type='text']")) {
+      newVisitorName = $("#new-visitor-name").val();
+    } else if ($(this).children().is("input[type='checkbox']")) {
+      newResponses.push({
+        timingId: $(this).attr("data-timing"),
+        answer: $(this).children().prop("checked")
+      });
+    }
+  });
   const updatedResponses = [];
-  $(".cell").each(function(index) {
+  $(".cell-old").each(function() {
     if ($(this).children().is("input[type='checkbox']")) {
       updatedResponses.push({
         visitorId: $(this).attr("data-visitor"),
@@ -23,7 +39,11 @@ const postVisitorResponses = function() {
       });
     }
   });
-  $.post("/api/responses", updatedResponses)
+  const uniqueId = $(location).attr("pathname").split("/")[2];
+  const responsesObj = { uniqueId, newVisitorName, newResponses, updatedResponses};
+  console.log(responsesObj);
+
+  $.post("/api/responses", responsesObj)
     .then((res) => {
       console.log(res);
     })
@@ -32,7 +52,7 @@ const postVisitorResponses = function() {
     });
 };
 
-const createGrid = (responses) => {
+const createGrid = (gridData) => {
   const $responsesTable = $(".responses-table");
 
   /* row to display table header */
@@ -40,15 +60,15 @@ const createGrid = (responses) => {
 
   $headerRow.append($("<div>").html("Participants").addClass("responses-header-cell"));
 
-  for (const timeSlot of responses.timeSlots) {
+  for (const timeSlot of gridData.timeSlots) {
     const $responsesHeaderCell = $("<div>").addClass("responses-header-cell");
 
-    const date = timeSlot.date.split(' ');
-    const $dateMonth = $("<div>").addClass("responses-header-month").html(date[0]);
-    const $dateDay = $("<div>").addClass("responses-header-day").html(date[1]);
-    const $dateYear = $("<div>").addClass("responses-header-year").html(date[2]);
-    const $startTime = $("<div>").addClass("responses-header-start-time").html(timeSlot.startTime);
-    const $endTime = $("<div>").addClass("responses-header-end-time").html(timeSlot.endTime);
+    const date = new Date(timeSlot.date);
+    const $dateMonth = $("<div>").addClass("responses-header-month").html(date.toLocaleString('default', { month: 'short' }));
+    const $dateDay = $("<div>").addClass("responses-header-day").html(date.getDate() + 1);
+    const $dateYear = $("<div>").addClass("responses-header-year").html(date.getFullYear());
+    const $startTime = $("<div>").addClass("responses-header-start-time").html(timeSlot.start_time);
+    const $endTime = $("<div>").addClass("responses-header-end-time").html(timeSlot.end_time);
     $responsesHeaderCell.append($dateMonth, $dateDay, $dateYear, $startTime, $endTime);
 
     $headerRow.append($responsesHeaderCell);
@@ -61,26 +81,52 @@ const createGrid = (responses) => {
 
   $totalVotesRow.append($("<div>").html("Total").addClass("cell col-header"));
 
-  for (const vote of responses.totalVotes) {
-    const $responsesTotalVotesCell = $("<div>").html(vote).addClass("cell");
+  for (const item of gridData.totalVotes) {
+    const $responsesTotalVotesCell = $("<div>").html(item.total_votes).addClass("cell");
 
     $totalVotesRow.append($responsesTotalVotesCell);
   }
 
   $responsesTable.append($totalVotesRow);
 
+  /* row to input new visitor */
+  const $newVisitorRow = $("<div>").addClass("responses-row-new-visitor");
+
+  $newVisitorRow.append($("<div>").addClass("cell cell-new col-header").append($("<input>").attr({
+    type: "text",
+    placeholder: "Your Name",
+    id: "new-visitor-name"
+  }).css("width", $(".col-header").width() - 10)));
+
+  for (const timeSlot of gridData.timeSlots) {
+    const $responsesNewVoteCell = $("<div>").attr({
+      "class": "cell cell-new",
+      "data-timing": timeSlot.timing_id
+    });
+
+    const $voteCheckbox = $("<input>").attr({
+      type: 'checkbox'
+    });
+
+    $responsesNewVoteCell.append($voteCheckbox);
+
+    $newVisitorRow.append($responsesNewVoteCell);
+  }
+
+  $responsesTable.append($newVisitorRow);
+
   /* data rows */
-  for (const visitor of responses.visitors) {
+  for (const visitor of gridData.responses) {
     const $votesRow = $("<div>").addClass("responses-row-votes");
 
-    const $responsesVotesCell = $("<div>").html(visitor.name).addClass("cell col-header");
+    const $responsesVotesCell = $("<div>").html(visitor.visitor_name).addClass("cell col-header");
     $votesRow.append($responsesVotesCell);
 
     for (const ans of visitor.answers) {
       const $responsesVotesCell = $("<div>").attr({
-        "class": "cell",
-        "data-visitor": visitor.visitorId,
-        "data-timing": ans.timingId
+        "class": "cell cell-old",
+        "data-visitor": visitor.visitor_id,
+        "data-timing": ans.timing_id
       })
       ;
 
@@ -108,22 +154,6 @@ const createGrid = (responses) => {
 
 $(() => {
 
-  //temporary
-  const responses = {
-    timeSlots: [
-      { timingId: 1, date: "Oct 12 2021", startTime: "10:00AM", endTime: "11:00AM" },
-      { timingId: 2, date: "Oct 13 2021", startTime: "1:00PM", endTime: "2:00PM" },
-      { timingId: 3, date: "Oct 15 2021", startTime: "11:00AM", endTime: "12:00PM" },
-      { timingId: 4, date: "Oct 19 2021", startTime: "2:00PM", endTime: "3:00PM" }
-    ],
-    totalVotes: [3, 2, 0, 1],
-    visitors: [
-      { visitorId: 1, name: "visitor1", answers: [{ timingId: 1, answer: true }, { timingId: 2, answer: true }, { timingId: 3, answer: false }, { timingId: 4, answer: false }] },
-      { visitorId: 2, name: "visitor2", answers: [{ timingId: 1, answer: true }, { timingId: 2, answer: true }, { timingId: 3, answer: false }, { timingId: 4, answer: true }] },
-      { visitorId: 3, name: "visitor3", answers: [{ timingId: 1, answer: true }, { timingId: 2, answer: false }, { timingId: 3, answer: false }, { timingId: 4, answer: false }] }
-    ]
-  };
-
   if ($(location).attr("pathname") === "/") {
     $(".create-event-container").hide();
     $(".event-details-container").hide();
@@ -142,3 +172,28 @@ $(() => {
     }
   }
 });
+
+{
+  uniqueId: '345678',
+  newVisitorName: 'abc',
+  newResponses: [
+    { timingId: '5', answer: false },
+    { timingId: '6', answer: true },
+    { timingId: '7', answer: true },
+    { timingId: '8', answer: false }
+  ],
+  updatedResponses: [
+    { visitorId: '3', timingId: '5', answer: true },
+    { visitorId: '3', timingId: '6', answer: false },
+    { visitorId: '3', timingId: '7', answer: false },
+    { visitorId: '3', timingId: '8', answer: false },
+    { visitorId: '4', timingId: '5', answer: true },
+    { visitorId: '4', timingId: '6', answer: false },
+    { visitorId: '4', timingId: '7', answer: false },
+    { visitorId: '4', timingId: '8', answer: false },
+    { visitorId: '5', timingId: '5', answer: false },
+    { visitorId: '5', timingId: '6', answer: false },
+    { visitorId: '5', timingId: '7', answer: false },
+    { visitorId: '5', timingId: '8', answer: false }
+  ]
+}

@@ -11,6 +11,7 @@ const changeURL = (next) => {
 };
 
 $(() => {
+  $(".link-copied").hide();
 
   $("#toggle-create-event-container").click(function() {
     $(".event-details-container").hide();
@@ -56,6 +57,18 @@ $(() => {
     //     console.log(err);
     //   });
 
+  });
+
+  $(".btn-clipboard").click(function() {
+    $(".link-copied").show().fadeOut(2500);
+
+    const value = $(".lbl-unique-link").html();
+
+    const $temp = $("<input>");
+    $("body").append($temp);
+    $temp.val(value).select();
+    document.execCommand("copy");
+    $temp.remove();
   });
 
 });

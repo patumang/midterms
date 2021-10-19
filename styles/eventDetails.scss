@@ -11,6 +11,8 @@
   padding: 20px 10px;
   border-radius: 10px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
 
   h3 {
     color: $color-primary;
@@ -36,6 +38,11 @@
       flex: 1;
     }
   }
+
+  .link-copied {
+    display: none;
+  }
+
 }
 
 .responses-container {
@@ -77,12 +84,13 @@
       }
     }
 
-    .responses-row-total-votes, .responses-row-votes{
+    .responses-row-total-votes, .responses-row-new-visitor, .responses-row-votes{
       display: flex;
 
       .col-header {
         font-size: 18px;
         font-weight: 600;
+        flex: 1;
       }
 
       .cell {
