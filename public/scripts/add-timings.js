@@ -10,17 +10,21 @@ $(() => {
     $(".time-slot-date").datepicker("destroy");
 
     if (timingsCounter >= 5) {
-      $(".timings_error").html(`You exceeded limit of ${timingsLimit}`);
+      //fadeOut bug: because of dynamically created element, fadeOut only binds to first instance of error msg
+      //fadeOut bug: error msg appears after fadeOut animation completes
+      $(".timings_error").html(`You exceeded limit of ${timingsLimit}`)//.fadeOut(2500);
+
       //initialize datepicker
-      $(".time-slot-date").datepicker({
-        showAnim: "fadeIn",
-        dateFormat: "yy-mm-dd"
-      });
+      datePicker()
+
       return;
     }
-    $(".timings_error").html();
 
-    const $createTimeSlot = $("<div>").addClass("form-row mt-2 time-slot").attr("id", `${timingsCounter + 1}`);
+    // $(".timings_error").html()
+
+
+
+    const $createTimeSlot = $("<div>").addClass("form-row mt-2 time-slot").attr("id", `time-slot-${timingsCounter + 1}`);
     const $timeSlotDate = $("<input>").attr({
       name: "time_slot_date",
       class: "col-md-6 time-slot-date",
@@ -41,29 +45,36 @@ $(() => {
     $createTimeSlot.append($timeSlotDate, $timeSlotStartTime, $timeSlotEndTime);
     $(".timings_container").append($createTimeSlot);
     timingsCounter++;
-    console.log("add- timingscounter:", timingsCounter)
 
     // initialize datepicker
-    $(".time-slot-date").datepicker({
-      showAnim: "fadeIn",
-      dateFormat: "yy-mm-dd"
-    });
+    datePicker()
 
+    //shows remove_timings btn
     $("#remove_timings").removeAttr("hidden");
 
   });
 
+  $("#remove_timings").on("click", function() {
 
-  $("#remove_timings").on("click",function() {
-
-    $(`#${timingsCounter}`).remove()
+    $(`#time-slot-${timingsCounter}`).remove()
     timingsCounter--;
 
-    if(timingsCounter === 0) {
-      $("#remove_timings").attr("hidden", "true")
+    //empty timing error message
+    if (timingsCounter < 5) {
+      $(".timings_error").empty();
     }
 
   })
 
 });
+
+const datePicker = () => {
+  $(".time-slot-date").datepicker({
+    showAnim: "fadeIn",
+    dateFormat: "yy-mm-dd",
+    minDate: 0,
+    showOtherMonths: true,
+    selectOtherMonths: true
+  });
+}
 
