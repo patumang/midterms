@@ -37,4 +37,4 @@ module.exports = visitors => {
     }
   }
   return distinctVisitors;
-}
+}; // dead

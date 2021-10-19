@@ -6,7 +6,6 @@ const express = require('express');
 const router  = express.Router();
 const insert = require('./query-helpers/insert');
 const select = require('./query-helpers/select');
-const restructure = require('./helpers/restructure');
 
 module.exports = (db) => {
 
@@ -73,22 +72,6 @@ module.exports = (db) => {
 
     compileApi(url);
     }); // end of GET
-
-    // selectEvent(db, url)
-    //   .then(event => {
-    //     api.push(event.rows[0]);
-    //     const event_id = event.rows[0].id;
-    //     return selectTimings(db, event_id);
-    //   })
-    //   .then(timings => {
-    //     api.push(timings.rows);
-    //     res.json({api});
-    //   })
-    //   .catch(err => {
-    //     res
-    //       .status(500)
-    //       .json({ error: err.message });
-    //   });
 
   router.post('/', (req, res) => {
     insertAllInDb(req.body);
