@@ -68,13 +68,13 @@ const postVisitorResponses = function() {
 // accepts data from checkbox parent
 const updateResponses = (response) => {
 
-  const updatedResponses = [];
-
-  updatedResponses.push({
+  const updatedResponses = {
     visitorId: $(response).attr("data-visitor"),
     timingId: $(response).attr("data-timing"),
     answer: $(response).children().prop("checked")
-  });
+  };
+
+  console.log(updatedResponses);
 
   $.post('/api/responses/update', updatedResponses);
 };

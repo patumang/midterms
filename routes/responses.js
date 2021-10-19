@@ -5,10 +5,12 @@ const express = require('express');
 const router  = express.Router();
 const insert = require('./query-helpers/insertResponses');
 const select = require('./query-helpers/select');
+const update = require('./query-helpers/updateResponses');
 
 module.exports = (db) => {
 
   const { fetchEventsByUrl } = select(db);
+  const { updateResponse } = update(db);
   const {
     insertVisitor,
     insertResponses
@@ -31,6 +33,11 @@ module.exports = (db) => {
     })
     .catch((err => console.log(err.message)));
 
+  });
+
+  router.post('/update', (req, res) => {
+    updateResponse(req.body)
+    .catch(err => console.log(err.message));
   });
 
 
