@@ -37,7 +37,7 @@ module.exports = db => {
       //create new promise each loop and push to this array
       const promises = [];
 
-      for (let i = 0; i < body.time_slot_date.length; i++){
+      for (let i = 0; i < body.time_slot_date.length; i++) {
         const queryParams = [
           eventID,
           body.time_slot_date[i],
@@ -47,7 +47,7 @@ module.exports = db => {
         promises.push(db.query(queryString, queryParams));
       }
       Promise.all(promises)
-      .catch((err) => console.log(err.message));
+        .catch((err) => console.log(err.message));
     } else {
       const queryParams = [
         eventID,
@@ -57,7 +57,7 @@ module.exports = db => {
       ];
 
       db.query(queryString, queryParams)
-      .catch(err => console.log(err.message));
+        .catch(err => console.log(err.message));
 
     }
 
@@ -65,10 +65,10 @@ module.exports = db => {
 
   const insertAllInDb = (body) => {
     insertEventInDb(body)
-    .then((res) => {
-      insertTimingsInDb(body, res.rows[0].id);
-    })
-    .catch(err => console.log(err.message));
+      .then((res) => {
+        insertTimingsInDb(body, res.rows[0].id);
+      })
+      .catch(err => console.log(err.message));
   };
 
   return { insertAllInDb };

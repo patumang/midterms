@@ -4,7 +4,7 @@ module.exports = (db, event_id) => {
     SELECT * FROM timings
     WHERE event_id = $1;
     `;
-  const queryParams = [ event_id ]
+  const queryParams = [ event_id ];
 
   return db.query(queryString, queryParams)
     .catch(err => console.log(err.message));

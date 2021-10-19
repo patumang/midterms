@@ -4,18 +4,17 @@ $(() => {
   let timingsCounter = 0;
 
 
-
   $("#add_timings").click(function() {
     //destroy datepicker so it can select newly created time_slot_date box
     $(".time-slot-date").datepicker("destroy");
 
     if (timingsCounter >= 5) {
       //fadeOut bug: because of dynamically created element, fadeOut only binds to first instance of error msg
-      //fadeOut bug: error msg appears after fadeOut animation completes
-      $(".timings_error").html(`You exceeded limit of ${timingsLimit}`)//.fadeOut(2500);
+      //fadeOut bug: error msg re-appears after fadeOut animation completes
+      $(".timings_error").html(`You exceeded limit of ${timingsLimit}`).fadeOut(2500);
 
       //initialize datepicker
-      datePicker()
+      datePicker();
 
       return;
     }
@@ -47,7 +46,7 @@ $(() => {
     timingsCounter++;
 
     // initialize datepicker
-    datePicker()
+    datePicker();
 
     //shows remove_timings btn
     $("#remove_timings").removeAttr("hidden");
@@ -56,7 +55,7 @@ $(() => {
 
   $("#remove_timings").on("click", function() {
 
-    $(`#time-slot-${timingsCounter}`).remove()
+    $(`#time-slot-${timingsCounter}`).remove();
     timingsCounter--;
 
     //empty timing error message
@@ -64,7 +63,7 @@ $(() => {
       $(".timings_error").empty();
     }
 
-  })
+  });
 
 });
 
@@ -76,5 +75,5 @@ const datePicker = () => {
     showOtherMonths: true,
     selectOtherMonths: true
   });
-}
+};
 
