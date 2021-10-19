@@ -23,5 +23,5 @@ VALUES (1, '2021-10-17', '13:30', '14:40'),
 INSERT INTO responses (timing_id, visitor_id)
 VALUES (3, 1),
 (4, 2),
-(5, 3),
+(5, 2),
 (5, 4);

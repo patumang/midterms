@@ -4,6 +4,7 @@ const getEventData = (path) => {
   $.get(`/api${path}`, null)
     .then((res) => {
       console.log(res);
+      createGrid(res);
     })
     .catch((err) => {
       console.log(err);
@@ -138,43 +139,6 @@ $(() => {
     } else {
       getEventData($(location).attr("pathname"));
       $(".event-details-container").show();
-      createGrid(responses);
     }
   }
 });
-
-const responses = {
-  timeSlots: [
-    { timingId: 1, date: "...", startTime: "...", endTime: "..." },
-    { timingId: 2, date: "...", startTime: "...", endTime: "..." },
-    { timingId: 3, date: "...", startTime: "...", endTime: "..." },
-    { timingId: 4, date: "...", startTime: "...", endTime: "..." }
-  ],
-  totalVotes: [3, 2, 0, 1],
-  visitors: [
-    {
-      visitorId: 1, name: "...", answers: [
-        { timingId: 1, answer: true },
-        { timingId: 2, answer: true },
-        { timingId: 3, answer: false },
-        { timingId: 4, answer: false }
-      ]
-    },
-    {
-      visitorId: 2, name: "...", answers: [
-        { timingId: 1, answer: true },
-        { timingId: 2, answer: true },
-        { timingId: 3, answer: false },
-        { timingId: 4, answer: true }
-      ]
-    },
-    {
-      visitorId: 3, name: "...", answers: [
-        { timingId: 1, answer: true },
-        { timingId: 2, answer: false },
-        { timingId: 3, answer: false },
-        { timingId: 4, answer: false }
-      ]
-    }
-  ]
-};
