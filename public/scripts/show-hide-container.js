@@ -173,7 +173,7 @@ $(() => {
   }
 });
 
-{
+/* {
   uniqueId: '345678',
   newVisitorName: 'abc',
   newResponses: [
@@ -196,4 +196,4 @@ $(() => {
     { visitorId: '5', timingId: '7', answer: false },
     { visitorId: '5', timingId: '8', answer: false }
   ]
-}
+} */
