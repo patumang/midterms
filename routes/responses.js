@@ -23,7 +23,7 @@ module.exports = (db) => {
 
     fetchEventsByUrl(url)
     .then(res => {
-      console.log(res.rows)
+      console.log(res.rows);
       const eventId = res.rows[0].id;
       return insertVisitor(name, eventId);
     })

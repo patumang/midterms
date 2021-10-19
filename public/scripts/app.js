@@ -12,7 +12,7 @@ const changeURL = (next) => {
 
 $(() => {
   $(".link-copied").hide();
-
+  //shows create event container
   $("#toggle-create-event-container").click(function() {
     $(".event-details-container").hide();
     $(".app-description").hide();
@@ -21,6 +21,12 @@ $(() => {
       title: 'Create New Event'
     });
     $(".create-event-container").show();
+  });
+  //shows app description
+  $("#how-to-btn").on("click", function() {
+    $(".event-details-container").hide();
+    $(".create-event-container").hide();
+    $(".app-description").show();
   });
 
   //create form event listener for submit
