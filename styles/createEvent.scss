@@ -5,7 +5,7 @@
   padding: 20px 10px;
   border-radius: 10px;
 
-  .form-title {
+  .create-event {
     text-align: center;
     color: $color-primary;
     font-weight: 600;
@@ -36,4 +36,8 @@
       }
     }
   }
+}
+
+.app-name {
+  font-family: 'Pacifico', cursive;
 }

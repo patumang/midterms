@@ -6,7 +6,7 @@ $().ready(() => {
 
     // GET request to event json (see /routes/events)
     $.get(`/api${path}`, null, (data, err) => {
-      console.log('data', data);
+      // console.log('data', data);
     });
   };
   getEvent();

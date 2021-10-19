@@ -1,0 +1,47 @@
+@import 'colors';
+
+.app-description {
+  border: solid 1px $color-gray-dark;
+  padding: 20px 10px;
+  border-radius: 10px;
+
+  .form-title {
+    text-align: center;
+    color: $color-primary;
+  }
+
+  .description-text {
+    text-align: center;
+    width: 80%;
+    margin-left: 10%
+  }
+
+  p {
+    text-align: center;
+  }
+
+  .feature-description {
+    border: solid 1px $color-gray-dark;
+    padding: 5px 10px;
+    border-radius: 10px;
+    margin: 20px 0px;
+    width: 90%;
+    margin-left: 5%;
+
+
+    .feature-title {
+      font-weight: bold;
+    }
+
+    .feature-p {
+      text-align: start;
+      width: 60%;
+    }
+
+  }
+
+  #feature-1 {
+    margin-top: 50px;
+  }
+}
+

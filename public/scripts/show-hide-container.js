@@ -155,12 +155,15 @@ const createGrid = (gridData) => {
 $(() => {
 
   if ($(location).attr("pathname") === "/") {
+    $(".app-description").show();
     $(".create-event-container").hide();
     $(".event-details-container").hide();
   } else if ($(location).attr("pathname") === "/events/new") {
+    $(".app-description").hide();
     $(".create-event-container").show();
     $(".event-details-container").hide();
   } else {
+    $(".app-description").hide();
     $(".create-event-container").hide();
     const path = $(location).attr("pathname").split("/");
     console.log(path);
