@@ -35,38 +35,16 @@ $(() => {
     //  prvent default submit behaviour
     event.preventDefault();
 
-    // form input as object
+    // form input as object;
     const data = Object.fromEntries(new FormData(event.target).entries());
+    // generate random string as url;
     data.event_url = Math.random().toString(20).substr(2, 10);
 
     $.post("/api/events", data, (res) => {
       $form.trigger("reset");
-      changeURL({
-          url: `http://localhost:8080/events/${data.event_url}`,
-          title: 'Event Details'
-      });
+      // similar behavior as an HTTP redirect
+      window.location.replace(`http://localhost:8080/events/${data.event_url}`);
 
-      // display handling; ported from a different file; refactor later
-      if ($(location).attr("pathname") === "/") {
-        $(".app-description").show();
-        $(".create-event-container").hide();
-        $(".event-details-container").hide();
-      } else if ($(location).attr("pathname") === "/events/new") {
-        $(".app-description").hide();
-        $(".create-event-container").show();
-        $(".event-details-container").hide();
-      } else {
-        $(".app-description").hide();
-        $(".create-event-container").hide();
-        const path = $(location).attr("pathname").split("/");
-        console.log(path);
-        if (path[1] !== 'events' || path.length !== 3) {
-          $(".event-details-container").html("Invalid Event link!");
-        } else {
-          getEventData($(location).attr("pathname"));
-          $(".event-details-container").show();
-        }
-      };
       })
       .catch((err) => {
         console.log(err);

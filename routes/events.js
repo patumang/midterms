@@ -78,7 +78,9 @@ module.exports = (db) => {
 
   router.post('/', (req, res) => {
     insertAllInDb(req.body);
-    res.redirect(`/events/${req.body.event_url}`); // this can be anything as long as it complete the request;
+
+    // the line below can be anything as long as it completes the request;
+    res.redirect(`/events/`);
   });
 
   return router;
