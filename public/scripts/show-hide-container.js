@@ -48,7 +48,8 @@ const postVisitorResponses = function() {
   if (newVisitorName) {
     $.post("/api/responses", responsesObj)
       .then((res) => {
-        console.log(res);
+        // refresh page after request;
+        window.location.replace($(location).attr('href'));
       })
       .catch((err) => {
         console.log(err);
@@ -244,9 +245,6 @@ const appendSendButton = () => {
   // when clicked; post request to api/responses, then re-render table
   $("#send_response").click(() => {
     postVisitorResponses();
-
-    // refresh page
-    window.location.replace($(location).attr('href'));
   });
 };
 

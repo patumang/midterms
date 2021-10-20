@@ -1,13 +1,18 @@
 module.exports = db => {
 
+  const generateRandomUrl = () => {
+    return Math.random().toString(20).substr(2, 10);
+  };
+
   const insertEventInDb = (body) => {
+    const event_url = generateRandomUrl();
     const queryParams = [
       body.organizer_name,
       body.organizer_email,
       body.event_title,
       body.event_desc,
       body.event_venue,
-      body.event_url
+      event_url
     ];
 
     const queryString = `

@@ -76,6 +76,9 @@ module.exports = (db) => {
   }); // end of GET
 
   router.post('/', (req, res) => {
+
+    console.log(req.body);
+
     insertAllInDb(req.body);
 
     // the line below can be anything as long as it completes the request;

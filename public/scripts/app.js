@@ -40,12 +40,18 @@ $(() => {
     // generate random string as url;
     data.event_url = Math.random().toString(20).substr(2, 10);
 
-    $.post("/api/events", data, (res) => {
-      $form.trigger("reset");
-      // similar behavior as an HTTP redirect
-      window.location.replace(`http://localhost:8080/events/${data.event_url}`);
+    const serializedData = $(this).serialize();
 
-      })
+    $.post("/api/events", serializedData, (res) => {
+      $form.trigger("reset");
+      console.log(res);
+
+        // refresh page after request
+        // window.location.replace(`http://localhost:8080/events/${data.event_url}`);
+    })
+      // .then(() => {
+
+      // })
       .catch((err) => {
         console.log(err);
       });
