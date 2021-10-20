@@ -51,6 +51,9 @@ const postVisitorResponses = function() {
 
   if (newVisitorName) {
     $.post("/api/responses", responsesObj)
+      .then((res) => {
+        console.log(res);
+      })
       .catch((err) => {
         console.log(err);
       });
