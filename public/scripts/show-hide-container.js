@@ -39,25 +39,12 @@ const postVisitorResponses = function() {
     }
   });
 
-  // const updatedResponses = [];
-  // $(".cell-old").each(function() {
-  //   if ($(this).children().is("input[type='checkbox']")) {
-  //     updatedResponses.push({
-  //       visitorId: $(this).attr("data-visitor"),
-  //       timingId: $(this).attr("data-timing"),
-  //       answer: $(this).children().prop("checked")
-  //     });
-  //   }
-  // });
-
   const uniqueId = $(location).attr("pathname").split("/")[2];
   const responsesObj = {
     uniqueId,
     newVisitorName,
-    newResponses,
-    // updatedResponses
+    newResponses
   };
-  // console.log(responsesObj);
 
   if (newVisitorName) {
     $.post("/api/responses", responsesObj)
@@ -76,8 +63,6 @@ const updateResponses = (response) => {
     timingId: $(response).attr("data-timing"),
     answer: $(response).children().prop("checked")
   };
-
-  // console.log(updatedResponses);
 
   $.post('/api/responses/update', updatedResponses);
 };
@@ -184,18 +169,6 @@ const createGrid = (gridData) => {
     $responsesTable.append($votesRow);
   }
 
-  // const $responsesContainer = $(".responses-container");
-  // $responsesContainer.append(`
-  //     <div class="form-group text-center  mt-4">
-  //       <button type="submit" class="btn btn-outline-success btn-lg" id="send_response" name="send_response">Send</button>
-  //     </div>
-  //   `);
-
-  // // when clicked; post request to api/responses, then refresh page
-  // $("#send_response").click(() => {
-  //   postVisitorResponses();
-  //   getEventData($(location).attr("pathname"));
-  // });
 };
 
 const appendSendButton = () => {
@@ -206,7 +179,7 @@ const appendSendButton = () => {
       </div>
     `);
 
-  // when clicked; post request to api/responses, then refresh page
+  // when clicked; post request to api/responses, then re-render table
   $("#send_response").click(() => {
     postVisitorResponses();
     setTimeout(getEventData($(location).attr("pathname"), 'refresh'), 4000);

@@ -1,7 +1,6 @@
 module.exports = db => {
 
   const insertEventInDb = (body) => {
-    // const event_url = uniqueUrlGenerator();
     const queryParams = [
       body.organizer_name,
       body.organizer_email,

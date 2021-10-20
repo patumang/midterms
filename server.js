@@ -48,21 +48,9 @@ app.use("/api/responses", responsesRoutes(db));
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
 
-// '*' to catch most get requests;
+// '/*' to catch most get requests;
 app.get("/*", (req, res) => {
   res.render("index");
-});
-
-app.get("/events/new", (req, res) => {
-  res.render("index");
-});
-
-app.post("/events", (req, res) => {
-  console.log('this', req.body);
-  //Insert pull queries
-  //unique key
-  //send resoponses
-  res.json({answer: "success"});
 });
 
 app.listen(PORT, () => {

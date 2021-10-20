@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-labels */
 /* eslint-disable indent */
 /* eslint-disable camelcase */
-const { json, response } = require('express');
 const express = require('express');
 const router  = express.Router();
 const insert = require('./query-helpers/insert');
