@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 
-const getEventData = (path) => {
+const getEventData = (path, refresh) => {
   $.get(`/api${path}`, null)
     .then((res) => {
       console.log(res);
@@ -10,6 +10,11 @@ const getEventData = (path) => {
       $(".lbl-venue").html(`Venue: ${res.event_details.venue}`);
       $(".lbl-event-desc").html(res.event_details.description);
       createGrid(res);
+
+      // corresponds with send-button;
+      if (!refresh) {
+        appendSendButton();
+      }
     })
     .then(() => {
       startCheckBoxListener()
@@ -57,7 +62,7 @@ const postVisitorResponses = function() {
   if (newVisitorName) {
     $.post("/api/responses", responsesObj)
     .then((res) => {
-      console.log(res);
+      // console.log(res);
     })
     .catch((err) => {
       console.log(err);
@@ -87,6 +92,10 @@ const startCheckBoxListener = () => {
 };
 
 const createGrid = (gridData) => {
+
+  // reset table
+  $('.responses-table').empty();
+
   const $responsesTable = $(".responses-table");
 
   /* row to display table header */
@@ -178,13 +187,33 @@ const createGrid = (gridData) => {
     $responsesTable.append($votesRow);
   }
 
+  // const $responsesContainer = $(".responses-container");
+  // $responsesContainer.append(`
+  //     <div class="form-group text-center  mt-4">
+  //       <button type="submit" class="btn btn-outline-success btn-lg" id="send_response" name="send_response">Send</button>
+  //     </div>
+  //   `);
+
+  // // when clicked; post request to api/responses, then refresh page
+  // $("#send_response").click(() => {
+  //   postVisitorResponses();
+  //   getEventData($(location).attr("pathname"));
+  // });
+};
+
+const appendSendButton = () => {
   const $responsesContainer = $(".responses-container");
   $responsesContainer.append(`
       <div class="form-group text-center  mt-4">
         <button type="submit" class="btn btn-outline-success btn-lg" id="send_response" name="send_response">Send</button>
       </div>
     `);
-  $("#send_response").click(postVisitorResponses);
+
+  // when clicked; post request to api/responses, then refresh page
+  $("#send_response").click(() => {
+    postVisitorResponses();
+    getEventData($(location).attr("pathname"), 'refresh');
+  });
 };
 
 $(() => {
