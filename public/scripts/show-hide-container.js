@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 
-const getEventData = (path, refresh) => {
+const getEventData = (path) => {
   $.get(`/api${path}`, null)
     .then((res) => {
       $(".lbl-unique-link").html(`http://localhost:8080/events/${res.event_details.unique_url}`);
@@ -9,15 +9,11 @@ const getEventData = (path, refresh) => {
       $(".lbl-venue").html(`Venue: ${res.event_details.venue}`);
       $(".lbl-event-desc").html(res.event_details.description);
       createGrid(res);
-
-      // corresponds with send-button;
-      if (!refresh) {
-        appendSendButton();
-      }
+      appendSendButton();
     })
-    .then(() => {
-      startCheckBoxListener()
-    })
+    // .then(() => {
+    //   startCheckBoxListener()
+    // })
     .catch((err) => {
       console.log('get');
       console.log(err);
@@ -210,10 +206,10 @@ const createGrid = (gridData) => {
   // });
 
   $(".response-cbox").change(function() {
+    updateResponses($(this).parent());
+
     $(this).parent().css("background-color", "green");
     const currentTimingId = $(this).parent().attr("data-timing");
-    console.log("outside:", $(this).parent().attr("data-timing"));
-    updateResponses($(this).parent());
     if ($(this).prop("checked")) {
       $(".cell-total").each(function() {
         if ($(this).attr("data-timing") === currentTimingId)
@@ -248,7 +244,9 @@ const appendSendButton = () => {
   // when clicked; post request to api/responses, then re-render table
   $("#send_response").click(() => {
     postVisitorResponses();
-    setTimeout(getEventData($(location).attr("pathname"), 'refresh'), 4000);
+
+    // refresh page
+    window.location.replace($(location).attr('href'));
   });
 };
 
