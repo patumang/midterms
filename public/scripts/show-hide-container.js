@@ -73,11 +73,11 @@ const updateResponses = (response) => {
   $.post('/api/responses/update', updatedResponses);
 };
 
-const startCheckBoxListener = () => {
-  $(".response-cbox").change((event) => {
-    updateResponses($(event.target).parent());
-  });
-};
+// const startCheckBoxListener = () => {
+//   $(".response-cbox").change((event) => {
+//     updateResponses($(event.target).parent());
+//   });
+// };
 
 const createGrid = (gridData) => {
 
