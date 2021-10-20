@@ -1,17 +1,14 @@
 module.exports = db => {
-  const uniqueUrlGenerator = () => {
-    return Math.random().toString(20).substr(2, 10);
-  };
 
   const insertEventInDb = (body) => {
-    const event_url = uniqueUrlGenerator();
+    // const event_url = uniqueUrlGenerator();
     const queryParams = [
       body.organizer_name,
       body.organizer_email,
       body.event_title,
       body.event_desc,
       body.event_venue,
-      event_url
+      body.event_url
     ];
 
     const queryString = `

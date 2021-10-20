@@ -3,7 +3,6 @@
 const getEventData = (path, refresh) => {
   $.get(`/api${path}`, null)
     .then((res) => {
-      console.log(res);
       $(".lbl-unique-link").html(`http://localhost:8080/events/${res.event_details.unique_url}`);
       $(".lbl-title").html(`${res.event_details.title}`);
       $(".lbl-organizer").html(`Organizer: ${res.event_details.creator_name}`);
@@ -20,6 +19,7 @@ const getEventData = (path, refresh) => {
       startCheckBoxListener()
     })
     .catch((err) => {
+      console.log('get');
       console.log(err);
     });
 };
@@ -57,13 +57,10 @@ const postVisitorResponses = function() {
     newResponses,
     // updatedResponses
   };
-  console.log(responsesObj);
+  // console.log(responsesObj);
 
   if (newVisitorName) {
     $.post("/api/responses", responsesObj)
-    .then((res) => {
-      // console.log(res);
-    })
     .catch((err) => {
       console.log(err);
     });
@@ -80,7 +77,7 @@ const updateResponses = (response) => {
     answer: $(response).children().prop("checked")
   };
 
-  console.log(updatedResponses);
+  // console.log(updatedResponses);
 
   $.post('/api/responses/update', updatedResponses);
 };
@@ -212,7 +209,7 @@ const appendSendButton = () => {
   // when clicked; post request to api/responses, then refresh page
   $("#send_response").click(() => {
     postVisitorResponses();
-    getEventData($(location).attr("pathname"), 'refresh');
+    setTimeout(getEventData($(location).attr("pathname"), 'refresh'), 4000);
   });
 };
 
@@ -230,7 +227,6 @@ $(() => {
     $(".app-description").hide();
     $(".create-event-container").hide();
     const path = $(location).attr("pathname").split("/");
-    console.log(path);
     if (path[1] !== 'events' || path.length !== 3) {
       $(".event-details-container").html("Invalid Event link!");
     } else {

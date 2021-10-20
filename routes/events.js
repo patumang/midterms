@@ -74,10 +74,11 @@ module.exports = (db) => {
     };
 
     compileApi(url);
-    }); // end of GET
+  }); // end of GET
 
   router.post('/', (req, res) => {
     insertAllInDb(req.body);
+    res.redirect(`/events/${req.body.event_url}`); // this can be anything as long as it complete the request;
   });
 
   return router;
