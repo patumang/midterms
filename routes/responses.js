@@ -23,7 +23,6 @@ module.exports = (db) => {
 
     fetchEventsByUrl(url)
     .then(res => {
-      console.log(res.rows);
       const eventId = res.rows[0].id;
       return insertVisitor(name, eventId);
     })
@@ -38,7 +37,7 @@ module.exports = (db) => {
 
   });
 
-  router.post('/responses/update', (req, res) => {
+  router.post('/update/', (req, res) => {
     updateResponse(req.body)
     .catch(err => {
       console.log('/update');

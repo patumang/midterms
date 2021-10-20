@@ -75,39 +75,4 @@ module.exports = db => {
 
   return { fetchEventsByUrl, fetchTimingsByEventId, fetchTotalVotesByEventId, fetchVisitorsByEventId, fetchResponsesByEventId };
 
-  // const insertAllInDb = (body) => {
-  //   insertEventInDb(body)
-  //   .then((res) => {
-  //     insertTimingsInDb(body, res.rows[0].id);
-  //   })
-  //   .catch(err => console.log(err.message));
-  // };
-
-  // const compileApi = url => {
-  //   const api = [];
-  //   fetchEventsByUrl(url)
-  //   .then(event => {
-  //     console.log('fetchEventsByUrl complete');
-  //     api.push(event.rows[0]);
-  //     const event_id = event.rows[0].id;
-  //     return fetchTimingsByEventId(event_id);
-  //   })
-  //   .then(timing => {
-  //     console.log('fetchTimings complete');
-  //     api.push(timing.rows);
-  //     const event_id = timing.rows[0].event_id;
-  //     console.log('event_id', event_id)
-  //     return fetchVisitorsByEventId(event_id);
-  //   })
-  //   .then(visitor => {
-  //     console.log('fetchVisitors complete')
-  //     console.log('visitor', visitor);
-  //     api.push(visitor.rows);
-  //     // const visitor_id = visitor.rows.id;
-  //     // return fetchResponses
-  //     console.log(api);
-  //     return api;
-  //   })
-  //   .catch(err => console.log(err.message));
-  // }
 };

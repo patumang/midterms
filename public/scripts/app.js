@@ -50,21 +50,6 @@ $(() => {
         console.log(err);
       });
 
-    //serialize data to make querystring
-    // const serializedData = $(this).serialize();
-    // console.log('serializedData',serializedData);
-    // $.post("/events", serializedData)
-    //   .then((res) => {
-    //     changeURL({
-    //       url: 'http://localhost:8080/unique_id',
-    //       title: 'Event Details'
-    //     });
-    //     console.log(res);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-
   });
 
   $(".btn-clipboard").click(function() {
