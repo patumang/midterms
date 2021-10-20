@@ -17,6 +17,10 @@ module.exports = (db) => {
     fetchResponsesByEventId
   } = select(db);
 
+  const generateRandomUrl = () => {
+    return Math.random().toString(20).substr(2, 10);
+  };
+
   // fetch event by url via query; create json
   router.get('/:url', (req, res) => {
     const url = req.params.url;
@@ -77,12 +81,14 @@ module.exports = (db) => {
 
   router.post('/', (req, res) => {
 
-    console.log(req.body);
+    const body = req.body;
+    body.event_url = generateRandomUrl();
 
-    insertAllInDb(req.body);
+    insertAllInDb(body);
 
     // the line below can be anything as long as it completes the request;
-    res.redirect(`/events/`);
+    // value will then be pass to success handler;
+    res.json(body.event_url);
   });
 
   return router;

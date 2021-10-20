@@ -44,14 +44,10 @@ $(() => {
 
     $.post("/api/events", serializedData, (res) => {
       $form.trigger("reset");
-      console.log(res);
 
-        // refresh page after request
-        // window.location.replace(`http://localhost:8080/events/${data.event_url}`);
-    })
-      // .then(() => {
-
-      // })
+      // refresh page after request
+      window.location.replace(`/events/${res}`);
+      })
       .catch((err) => {
         console.log(err);
       });
