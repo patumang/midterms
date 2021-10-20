@@ -67,7 +67,10 @@ module.exports = (db) => {
         api["responses"] = resGridData;
       })
       .then(() => res.json(api))
-      .catch(err => console.log(err.message));
+      .catch(err => {
+        console.log('/events/:url')
+        console.log(err);
+      });
     };
 
     compileApi(url);

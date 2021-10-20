@@ -31,13 +31,19 @@ module.exports = (db) => {
       const visitorId = res.rows[0].id;
       insertResponses(responses, visitorId);
     })
-    .catch((err => console.log(err.message)));
+    .catch(err => {
+      console.log('/responses/')
+      console.log(err);
+    });
 
   });
 
-  router.post('/update', (req, res) => {
+  router.post('/responses/update', (req, res) => {
     updateResponse(req.body)
-    .catch(err => console.log(err.message));
+    .catch(err => {
+      console.log('/update');
+      console.log(err);
+    });
   });
 
 
