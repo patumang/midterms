@@ -31,6 +31,7 @@ const postVisitorResponses = function() {
   $(".cell-new").each(function() {
     if ($(this).children().is("input[type='text']")) {
       newVisitorName = $("#new-visitor-name").val();
+      newVisitorEmail = $("#new-visitor-email").val();
     } else if ($(this).children().is("input[type='checkbox']")) {
       newResponses.push({
         timingId: $(this).attr("data-timing"),
@@ -54,6 +55,7 @@ const postVisitorResponses = function() {
   const responsesObj = {
     uniqueId,
     newVisitorName,
+    newVisitorEmail,
     newResponses,
     // updatedResponses
   };
@@ -61,12 +63,12 @@ const postVisitorResponses = function() {
 
   if (newVisitorName) {
     $.post("/api/responses", responsesObj)
-    .then((res) => {
-      // console.log(res);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
 };
@@ -104,7 +106,10 @@ const createGrid = (gridData) => {
   $headerRow.append($("<div>").html("Participants").addClass("responses-header-cell"));
 
   for (const timeSlot of gridData.timeSlots) {
-    const $responsesHeaderCell = $("<div>").addClass("responses-header-cell");
+    const $responsesHeaderCell = $("<div>").attr({
+      "class": "responses-header-cell cell-time",
+      "data-timing": timeSlot.timing_id
+    });
 
     const date = new Date(timeSlot.date);
     const $dateMonth = $("<div>").addClass("responses-header-month").html(date.toLocaleString('default', { month: 'short' }));
@@ -125,7 +130,10 @@ const createGrid = (gridData) => {
   $totalVotesRow.append($("<div>").html("Total").addClass("cell col-header"));
 
   for (const item of gridData.totalVotes) {
-    const $responsesTotalVotesCell = $("<div>").html(item.total_votes).addClass("cell");
+    const $responsesTotalVotesCell = $("<div>").html(item.total_votes).attr({
+      "class": "cell cell-time cell-total",
+      "data-timing": item.timing_id
+    });
 
     $totalVotesRow.append($responsesTotalVotesCell);
   }
@@ -134,21 +142,36 @@ const createGrid = (gridData) => {
 
   /* row to input new visitor */
   const $newVisitorRow = $("<div>").addClass("responses-row-new-visitor");
-
-  $newVisitorRow.append($("<div>").addClass("cell cell-new col-header").append($("<input>").attr({
+  $newVisitorCell = $("<div>").addClass("cell cell-new col-header").css({
+    "display": "flex",
+    "flex-direction": "column",
+    "align-items": "center"
+  });
+  $newVisitorNameTxtBox = $("<input>").attr({
     type: "text",
     placeholder: "Your Name",
     id: "new-visitor-name"
-  }).css("width", $(".col-header").width() - 10)));
+  }).css("width", $(".col-header").width() - 10);
+  $newVisitorEmailTxtBox = $("<input>").attr({
+    type: "text",
+    placeholder: "Your Email",
+    id: "new-visitor-email"
+  }).css({
+    "width": $(".col-header").width() - 10,
+    "margin-top": "10px"
+  });
+  $newVisitorCell.append($newVisitorNameTxtBox, $newVisitorEmailTxtBox);
+  $newVisitorRow.append($newVisitorCell);
 
   for (const timeSlot of gridData.timeSlots) {
     const $responsesNewVoteCell = $("<div>").attr({
-      "class": "cell cell-new",
+      "class": "cell cell-new cell-time",
       "data-timing": timeSlot.timing_id
     });
 
     const $voteCheckbox = $("<input>").attr({
-      type: 'checkbox'
+      type: 'checkbox',
+      class: 'response-cbox'
     });
 
     $responsesNewVoteCell.append($voteCheckbox);
@@ -167,7 +190,7 @@ const createGrid = (gridData) => {
 
     for (const ans of visitor.answers) {
       const $responsesVotesCell = $("<div>").attr({
-        "class": "cell cell-old",
+        "class": "cell cell-old cell-time",
         "data-visitor": visitor.visitor_id,
         "data-timing": ans.timing_id
       })
@@ -199,6 +222,33 @@ const createGrid = (gridData) => {
   //   postVisitorResponses();
   //   getEventData($(location).attr("pathname"));
   // });
+
+  $(".response-cbox").change(function() {
+    $(this).parent().css("background-color", "green");
+    const currentTimingId = $(this).parent().attr("data-timing");
+    console.log("outside:", $(this).parent().attr("data-timing"));
+    updateResponses($(this).parent());
+    if ($(this).prop("checked")) {
+      $(".cell-total").each(function() {
+        if ($(this).attr("data-timing") === currentTimingId)
+          $(this).html(Number($(this).html()) + 1);
+      });
+      $(".cell-time").each(function() {
+        if ($(this).attr("data-timing") === currentTimingId)
+          $(this).css("background-color", "#92e6a7");
+      });
+    } else {
+      $(".cell-total").each(function() {
+        if ($(this).attr("data-timing") === currentTimingId)
+          $(this).html(Number($(this).html()) - 1);
+      });
+      $(".cell-time").each(function () {
+        if ($(this).attr("data-timing") === currentTimingId)
+          $(this).css("background-color", "#e9ecef");
+      });
+    }
+
+  });
 };
 
 const appendSendButton = () => {
@@ -240,28 +290,3 @@ $(() => {
   }
 
 });
-
-/* {
-  uniqueId: '345678',
-  newVisitorName: 'abc',
-  newResponses: [
-    { timingId: '5', answer: false },
-    { timingId: '6', answer: true },
-    { timingId: '7', answer: true },
-    { timingId: '8', answer: false }
-  ],
-  updatedResponses: [
-    { visitorId: '3', timingId: '5', answer: true },
-    { visitorId: '3', timingId: '6', answer: false },
-    { visitorId: '3', timingId: '7', answer: false },
-    { visitorId: '3', timingId: '8', answer: false },
-    { visitorId: '4', timingId: '5', answer: true },
-    { visitorId: '4', timingId: '6', answer: false },
-    { visitorId: '4', timingId: '7', answer: false },
-    { visitorId: '4', timingId: '8', answer: false },
-    { visitorId: '5', timingId: '5', answer: false },
-    { visitorId: '5', timingId: '6', answer: false },
-    { visitorId: '5', timingId: '7', answer: false },
-    { visitorId: '5', timingId: '8', answer: false }
-  ]
-} */
