@@ -5,6 +5,7 @@ const getEventData = (path) => {
     .then((res) => {
       console.log(res);
       $(".lbl-unique-link").html(`http://localhost:8080/events/${res.event_details.unique_url}`);
+      $(".lbl-title").html(`${res.event_details.title}`);
       $(".lbl-organizer").html(`Organizer: ${res.event_details.creator_name}`);
       $(".lbl-venue").html(`Venue: ${res.event_details.venue}`);
       $(".lbl-event-desc").html(res.event_details.description);
