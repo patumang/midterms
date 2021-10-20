@@ -18,6 +18,7 @@ module.exports = (db) => {
 
   router.post('/', (req, res) => {
     const name = req.body.newVisitorName;
+    const email = req.body.newVisitorEmail;
     const responses = req.body.newResponses;
     const url = req.body.uniqueId;
 
@@ -25,7 +26,7 @@ module.exports = (db) => {
     .then(res => {
       console.log(res.rows);
       const eventId = res.rows[0].id;
-      return insertVisitor(name, eventId);
+      return insertVisitor(name, email, eventId);
     })
     .then(res => {
       const visitorId = res.rows[0].id;

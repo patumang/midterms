@@ -1,12 +1,12 @@
 module.exports = db => {
 
-  const insertVisitor = (name, eventId) => {
+  const insertVisitor = (name, email, eventId) => {
     const queryString = `
-      INSERT INTO visitors (visitor_name, event_id)
-      VALUES ($1, $2)
+      INSERT INTO visitors (visitor_name, visitor_email, event_id)
+      VALUES ($1, $2, $3)
       RETURNING id;
     `;
-    const queryParams = [ name, eventId ];
+    const queryParams = [ name, email, eventId ];
 
     return db.query(queryString, queryParams);
   };
