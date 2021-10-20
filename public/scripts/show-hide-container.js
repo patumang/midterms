@@ -1,6 +1,10 @@
 /* eslint-disable no-undef */
 
 const getEventData = (path) => {
+
+  // reset table
+  $('.responses-table').empty();
+
   $.get(`/api${path}`, null)
     .then((res) => {
       console.log(res);
@@ -56,7 +60,7 @@ const postVisitorResponses = function() {
   if (newVisitorName) {
     $.post("/api/responses", responsesObj)
     .then((res) => {
-      console.log(res);
+      // console.log(res);
     })
     .catch((err) => {
       console.log(err);
@@ -183,7 +187,12 @@ const createGrid = (gridData) => {
         <button type="submit" class="btn btn-outline-success btn-lg" id="send_response" name="send_response">Send</button>
       </div>
     `);
-  $("#send_response").click(postVisitorResponses);
+
+  // when clicked; post request to api/responses, then refresh page
+  $("#send_response").click(() => {
+    postVisitorResponses();
+    getEventData($(location).attr("pathname"));
+  });
 };
 
 $(() => {
