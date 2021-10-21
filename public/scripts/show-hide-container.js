@@ -141,13 +141,13 @@ const createGrid = (gridData) => {
     type: "text",
     placeholder: "Your Name",
     id: "new-visitor-name"
-  }).css("width", $(".col-header").width() - 10);
+  }).css("width", "90%");
   $newVisitorEmailTxtBox = $("<input>").attr({
     type: "text",
     placeholder: "Your Email",
     id: "new-visitor-email"
   }).css({
-    "width": $(".col-header").width() - 10,
+    "width": "90%",
     "margin-top": "10px"
   });
   $newVisitorCell.append($newVisitorNameTxtBox, $newVisitorEmailTxtBox);
