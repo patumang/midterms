@@ -60,7 +60,7 @@ module.exports = db => {
   // use two factor to be explicit; cannot implement; just use visitor_id
   const fetchResponsesByEventId = event_id => {
     queryString = `
-    SELECT v.id as visitor_id, r.timing_id
+    SELECT v.id as visitor_id, r.timing_id, r.response
       FROM visitors v
       JOIN responses r ON r.visitor_id = v.id
     WHERE v.event_id = $1

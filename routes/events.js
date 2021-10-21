@@ -53,18 +53,24 @@ module.exports = (db) => {
         Loop1:
         for (let visitor of api.visitors) {
           const visitorResponse = {visitor_id: visitor.visitor_id, visitor_name: visitor.visitor_name, answers: []};
-          Loop2:
-          for (let timing of api.timeSlots) {
-            let answer = false;
-            Loop3:
-            for (let res of responses.rows) {
-              if (res.timing_id === timing.timing_id && res.visitor_id === visitor.visitor_id) {
-                answer = true;
-                break Loop3;
-              }
+
+          for (let res of responses.rows) {
+            if(visitor.visitor_id === res.visitor_id) {
+              visitorResponse.answers.push(res);
             }
-            visitorResponse.answers.push({ timing_id: timing.timing_id, answer});
           }
+          // Loop2:
+          // for (let timing of api.timeSlots) {
+          //   let answer = false;
+          //   Loop3:
+            // for (let res of responses.rows) {
+            //   if (res.timing_id === timing.timing_id && res.visitor_id === visitor.visitor_id) {
+            //     answer = true;
+            //     break Loop3;
+            //   }
+          //   }
+          //   visitorResponse.answers.push({ timing_id: timing.timing_id, answer});
+          // }
           resGridData.push(visitorResponse);
         }
         api["responses"] = resGridData;
