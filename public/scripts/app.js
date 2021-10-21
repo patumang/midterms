@@ -45,7 +45,8 @@ $(() => {
       console.log(data);
 
       const serializedData = $(this).serialize();
-      $.post("/api/events", serializedData, (url) => {
+      $.post("/api/events", serializedData, (body) => {
+        const url = body.event_url;
 
         $form.trigger("reset");
         // send url to /email

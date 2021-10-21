@@ -94,7 +94,7 @@ module.exports = (db) => {
 
     // the line below can be anything as long as it completes the request;
     // value will then be pass to success handler;
-    res.send(body.event_url);
+    res.send(body);
   });
 
   return router;
