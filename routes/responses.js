@@ -32,7 +32,7 @@ module.exports = (db) => {
       insertResponses(responses, visitorId);
 
       // anything here as long as it completes the request;
-      res.json('sent');
+      res.send('response sent');
     })
     .catch(err => {
       console.log('/responses/')

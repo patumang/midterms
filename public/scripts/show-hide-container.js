@@ -1,17 +1,22 @@
 /* eslint-disable no-undef */
 
+// xss protection
+const escape = str => {
+  let div = document.createElement("div");
+  div.appendChild(document.createTextNode(str));
+  return div.innerHTML;
+};
+
 const getEventData = (path) => {
   $.get(`/api${path}`, null)
     .then((res) => {
       $(".lbl-unique-link").html(`http://localhost:8080/events/${res.event_details.unique_url}`);
-      $(".lbl-title").html(`${res.event_details.title}`);
-      $(".lbl-organizer").html(`Organizer: ${res.event_details.creator_name}`);
-      $(".lbl-venue").html(`Venue: ${res.event_details.venue}`);
-      $(".lbl-event-desc").html(res.event_details.description);
+      $(".lbl-title").html(`${escape(res.event_details.title)}`);
+      $(".lbl-organizer").html(`Organizer: ${escape(res.event_details.creator_name)}`);
+      $(".lbl-venue").html(`Venue: ${escape(res.event_details.venue)}`);
+      $(".lbl-event-desc").html(`${escape(res.event_details.description)}`);
       createGrid(res);
       appendSendButton();
-
-      console.log(res);
     })
     // .then(() => {
     //   startCheckBoxListener()
@@ -174,7 +179,6 @@ const createGrid = (gridData) => {
     $votesRow.append($responsesVotesCell);
 
     for (const ans of visitor.answers) {
-      console.log(ans);
       const $responsesVotesCell = $("<div>").attr({
         "class": "cell cell-old cell-time",
         "data-visitor": visitor.visitor_id,
