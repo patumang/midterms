@@ -9,7 +9,7 @@ $(() => {
     $(".time-slot-date").datepicker("destroy");
 
     if (timingsCounter >= 5) {
-      $(".timing-error").show().html(`You exceeded limit of ${timingsLimit}`).fadeOut(2500)
+      $(".timing-error").show().html(`You exceeded limit of ${timingsLimit}`).fadeOut(2500);
 
       //initialize datepicker
       datePicker();

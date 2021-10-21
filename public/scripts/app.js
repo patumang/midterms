@@ -12,7 +12,6 @@ const changeURL = (next) => {
 
 $(() => {
   $(".link-copied").hide();
-  $(".timing-error").hide();
   //shows create event container
   $("#toggle-create-event-container").click(function() {
     $(".event-details-container").hide();
@@ -43,25 +42,31 @@ $(() => {
     if ($timeSlotInput.val()) {
 
       const data = Object.fromEntries(new FormData(event.target).entries());
-      // generate random string as url;
-      data.event_url = Math.random().toString(20).substr(2, 10);
+      console.log(data);
 
       const serializedData = $(this).serialize();
-      $.post("/api/events", serializedData, (res) => {
-        $form.trigger("reset");
+      $.post("/api/events", serializedData, (body) => {
+        const url = body.event_url;
 
+        $form.trigger("reset");
+        // send url to /email
+        if (data.event_link_for_self) {
+          $.post('/email', body);
+        }
         // refresh page after request
-        window.location.replace(`/events/${res}`);
+        window.location.replace(`/events/${url}`);
         })
         .catch((err) => {
           console.log(err);
         });
-        return;
+
+
+
+      return;
     }
 
     // return error message if no date is chosen
-    console.log("Not there");
-    $(".timing-error").show().html("At least 1 timing is required").fadeOut(2500)
+    $(".timing-error").show().html("At least 1 date is required").fadeOut(2500);
 
     // form input as object;
 

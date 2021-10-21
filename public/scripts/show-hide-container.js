@@ -14,7 +14,7 @@ const getEventData = (path) => {
       $(".lbl-title").html(`${escape(res.event_details.title)}`);
       $(".lbl-organizer").html(`Organizer: ${escape(res.event_details.creator_name)}`);
       $(".lbl-venue").html(`Venue: ${escape(res.event_details.venue)}`);
-      $(".lbl-event-desc").html(`${escape(res.event_details.description)}`);
+      $(".lbl-event-desc").html(escape(res.event_details.description));
       createGrid(res);
       appendSendButton();
     })
@@ -105,8 +105,8 @@ const createGrid = (gridData) => {
     const $dateMonth = $("<div>").addClass("responses-header-month").html(date.toLocaleString('default', { month: 'short' }));
     const $dateDay = $("<div>").addClass("responses-header-day").html(date.getDate() + 1);
     const $dateYear = $("<div>").addClass("responses-header-year").html(date.getFullYear());
-    const $startTime = $("<div>").addClass("responses-header-start-time").html(timeSlot.start_time);
-    const $endTime = $("<div>").addClass("responses-header-end-time").html(timeSlot.end_time);
+    const $startTime = $("<div>").addClass("responses-header-start-time").html(escape(timeSlot.start_time));
+    const $endTime = $("<div>").addClass("responses-header-end-time").html(escape(timeSlot.end_time));
     $responsesHeaderCell.append($dateMonth, $dateDay, $dateYear, $startTime, $endTime);
 
     $headerRow.append($responsesHeaderCell);
@@ -141,13 +141,13 @@ const createGrid = (gridData) => {
     type: "text",
     placeholder: "Your Name",
     id: "new-visitor-name"
-  }).css("width", $(".col-header").width() - 10);
+  }).css("width", "90%");
   $newVisitorEmailTxtBox = $("<input>").attr({
     type: "text",
     placeholder: "Your Email",
     id: "new-visitor-email"
   }).css({
-    "width": $(".col-header").width() - 10,
+    "width": "90%",
     "margin-top": "10px"
   });
   $newVisitorCell.append($newVisitorNameTxtBox, $newVisitorEmailTxtBox);
@@ -175,7 +175,7 @@ const createGrid = (gridData) => {
   for (const visitor of gridData.responses) {
     const $votesRow = $("<div>").addClass("responses-row-votes");
 
-    const $responsesVotesCell = $("<div>").html(visitor.visitor_name).addClass("cell col-header");
+    const $responsesVotesCell = $("<div>").html(escape(visitor.visitor_name)).addClass("cell col-header");
     $votesRow.append($responsesVotesCell);
 
     for (const ans of visitor.answers) {
