@@ -35,22 +35,33 @@ $(() => {
     //  prvent default submit behaviour
     event.preventDefault();
 
+    const $timeSlotDiv = $(".timings_container").children("#time-slot-1");
+    const $timeSlotInput = $timeSlotDiv.children(".hasDatepicker");
+
+    // checks if there is a value in the first time_slot_date input
+    if ($timeSlotInput.val()) {
+
+      const data = Object.fromEntries(new FormData(event.target).entries());
+      // generate random string as url;
+      data.event_url = Math.random().toString(20).substr(2, 10);
+
+      const serializedData = $(this).serialize();
+      $.post("/api/events", serializedData, (res) => {
+        $form.trigger("reset");
+
+        // refresh page after request
+        window.location.replace(`/events/${res}`);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+    }
+
+    // return error message if no date is chosen
+    console.log("Not there");
+
     // form input as object;
-    const data = Object.fromEntries(new FormData(event.target).entries());
-    // generate random string as url;
-    data.event_url = Math.random().toString(20).substr(2, 10);
-
-    const serializedData = $(this).serialize();
-
-    $.post("/api/events", serializedData, (res) => {
-      $form.trigger("reset");
-
-      // refresh page after request
-      window.location.replace(`/events/${res}`);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
 
   });
 
