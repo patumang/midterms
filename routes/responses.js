@@ -27,9 +27,12 @@ module.exports = (db) => {
       const eventId = res.rows[0].id;
       return insertVisitor(name, email, eventId);
     })
-    .then(res => {
-      const visitorId = res.rows[0].id;
+    .then(data => {
+      const visitorId = data.rows[0].id;
       insertResponses(responses, visitorId);
+
+      // anything here as long as it completes the request;
+      res.json('sent');
     })
     .catch(err => {
       console.log('/responses/')
