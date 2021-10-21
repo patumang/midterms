@@ -20,8 +20,26 @@ VALUES (1, '2021-10-17', '13:30', '14:40'),
 (3, '2021-10-17', '11:00', '23:00'),
 (3, '2021-10-17', '11:30', '23:30');
 
-INSERT INTO responses (timing_id, visitor_id)
+/* INSERT INTO responses (timing_id, visitor_id)
 VALUES (3, 1),
 (4, 2),
 (5, 2),
-(5, 4);
+(5, 4); */
+
+INSERT INTO responses(timing_id, visitor_id, response)
+  VALUES(3, 1, true),
+    (4, 1, false),
+    (3, 2, false),
+    (4, 2, true),
+    (5, 3, false),
+    (6, 3, false),
+    (7, 3, false),
+    (8, 3, false),
+    (5, 4, true),
+    (6, 4, false),
+    (7, 4, false),
+    (8, 4, false),
+    (5, 5, false),
+    (6, 5, false),
+    (7, 5, false),
+    (8, 5, false);

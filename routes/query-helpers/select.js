@@ -30,13 +30,30 @@ module.exports = db => {
     .catch(err => console.log(err.message));
   };
   const fetchTotalVotesByEventId = event_id => {
-    queryString = `
+    /* queryString = `
     SELECT t.id as timing_id, count(r.*) as total_votes
     FROM timings t
       LEFT JOIN responses r ON r.timing_id = t.id
     WHERE t.event_id = $1
     GROUP BY t.id
     ORDER BY t.id;
+    `; */
+    /* queryString = `
+    SELECT r.timing_id, count(r.response) as total_votes
+    FROM timings t
+      LEFT JOIN responses r ON r.timing_id = t.id
+    WHERE t.event_id = 2
+    GROUP BY r.timing_id, r.response
+    HAVING r.response = true
+    ORDER BY r.timing_id;
+    `; */
+    queryString = `
+    SELECT r.timing_id, count(r.*) as total_votes
+    FROM timings t
+      JOIN responses r ON r.timing_id = t.id
+    WHERE t.event_id = $1 AND r.response = true
+    GROUP BY r.timing_id
+    ORDER BY r.timing_id;
     `;
     const queryParams = [event_id];
 
