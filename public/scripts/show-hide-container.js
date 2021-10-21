@@ -10,6 +10,8 @@ const getEventData = (path) => {
       $(".lbl-event-desc").html(res.event_details.description);
       createGrid(res);
       appendSendButton();
+
+      console.log(res);
     })
     // .then(() => {
     //   startCheckBoxListener()
@@ -172,6 +174,7 @@ const createGrid = (gridData) => {
     $votesRow.append($responsesVotesCell);
 
     for (const ans of visitor.answers) {
+      console.log(ans);
       const $responsesVotesCell = $("<div>").attr({
         "class": "cell cell-old cell-time",
         "data-visitor": visitor.visitor_id,
@@ -182,7 +185,7 @@ const createGrid = (gridData) => {
       const $voteCheckbox = $("<input>").attr({
         type: 'checkbox',
         class: 'response-cbox',
-        checked: ans.answer
+        checked: ans.response
       });
 
       $responsesVotesCell.append($voteCheckbox);
