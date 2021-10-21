@@ -12,6 +12,7 @@ const changeURL = (next) => {
 
 $(() => {
   $(".link-copied").hide();
+  $(".timing-error").hide();
   //shows create event container
   $("#toggle-create-event-container").click(function() {
     $(".event-details-container").hide();
@@ -35,8 +36,8 @@ $(() => {
     //  prvent default submit behaviour
     event.preventDefault();
 
-    const $timeSlotDiv = $(".timings_container").children("#time-slot-1");
-    const $timeSlotInput = $timeSlotDiv.children(".hasDatepicker");
+
+    const $timeSlotInput = $(".timings_container").find(".hasDatepicker");
 
     // checks if there is a value in the first time_slot_date input
     if ($timeSlotInput.val()) {
@@ -55,11 +56,12 @@ $(() => {
         .catch((err) => {
           console.log(err);
         });
-
+        return;
     }
 
     // return error message if no date is chosen
     console.log("Not there");
+    $(".timing-error").show().html("At least 1 timing is required").fadeOut(2500)
 
     // form input as object;
 

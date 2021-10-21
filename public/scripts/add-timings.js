@@ -9,9 +9,7 @@ $(() => {
     $(".time-slot-date").datepicker("destroy");
 
     if (timingsCounter >= 5) {
-      //fadeOut bug: because of dynamically created element, fadeOut only binds to first instance of error msg
-      //fadeOut bug: error msg re-appears after fadeOut animation completes
-      $(".timings_error").html(`You exceeded limit of ${timingsLimit}`).fadeOut(2500);
+      $(".timing-error").show().html(`You exceeded limit of ${timingsLimit}`).fadeOut(2500)
 
       //initialize datepicker
       datePicker();
