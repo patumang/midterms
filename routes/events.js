@@ -40,7 +40,22 @@ module.exports = (db) => {
         return fetchTotalVotesByEventId(event_id);
       })
       .then(totalVotes => {
-        api["totalVotes"] = totalVotes.rows;
+        const finalTotalVotes = [];
+        Loop1:
+        for (let i = 0; i < api.timeSlots.length; i++) {
+          finalTotalVotes[i] = {};
+          finalTotalVotes[i]['timing_id'] = api.timeSlots[i]['timing_id'];
+          finalTotalVotes[i]['total_votes'] = 0;
+          Loop2:
+          for (let j = 0; j < totalVotes.rows.length; j++) {
+            if (totalVotes.rows[j]['timing_id'] === api.timeSlots[i]['timing_id']) {
+              finalTotalVotes[i]['total_votes'] = totalVotes.rows[j]['total_votes'];
+              break Loop2;
+            }
+          }
+        }
+        //api["totalVotes"] = totalVotes.rows;
+        api["totalVotes"] = finalTotalVotes;
         return fetchVisitorsByEventId(event_id);
       })
       .then(visitors => {
@@ -55,7 +70,7 @@ module.exports = (db) => {
           const visitorResponse = {visitor_id: visitor.visitor_id, visitor_name: visitor.visitor_name, answers: []};
 
           for (let res of responses.rows) {
-            if(visitor.visitor_id === res.visitor_id) {
+            if (visitor.visitor_id === res.visitor_id) {
               visitorResponse.answers.push(res);
             }
           }
@@ -77,7 +92,7 @@ module.exports = (db) => {
       })
       .then(() => res.json(api))
       .catch(err => {
-        console.log('/events/:url')
+        console.log('/events/:url');
         console.log(err);
       });
     };
