@@ -36,11 +36,13 @@ app.use(express.static("public"));
 // Separated Routes for each Resource
 const eventsRoutes = require("./routes/events");
 const responsesRoutes = require("./routes/responses");
+const emailRoutes = require("./routes/email");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 app.use("/api/events", eventsRoutes(db));
 app.use("/api/responses", responsesRoutes(db));
+app.use("/email", emailRoutes());
 
 // Note: mount other resources here, using the same pattern above
 
