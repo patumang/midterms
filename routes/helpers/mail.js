@@ -18,7 +18,7 @@ const sendMail = (email, creatorName, uniqueUrl,) => {
   const mailOptions = {
     from: 'schoodle.midterm@gmail.com',
     to: 'schoodle.midterm@gmail.com',
-    subject: 'Testing',
+    subject: 'Your Unique Meeting Url',
     text: `Hello ${creatorName}, your meeting url is localhost:8080/event/${uniqueUrl}`
   };
 

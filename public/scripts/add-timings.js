@@ -31,12 +31,14 @@ $(() => {
     const $timeSlotStartTime = $("<input>").attr({
       name: "time_slot_start_time",
       class: " col-md-3 time-slot-start-time",
-      placeholder: "Start Time"
+      placeholder: "Start Time",
+      autocomplete:"off"
     });
     const $timeSlotEndTime = $("<input>").attr({
       name: "time_slot_end_time",
       class: "col-md-3 time-slot-end-time",
-      placeholder: "End Time"
+      placeholder: "End Time",
+      autocomplete:"off"
     });
 
     $createTimeSlot.append($timeSlotDate, $timeSlotStartTime, $timeSlotEndTime);
