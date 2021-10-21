@@ -12,7 +12,6 @@ const changeURL = (next) => {
 
 $(() => {
   $(".link-copied").hide();
-  $(".timing-error").hide();
   //shows create event container
   $("#toggle-create-event-container").click(function() {
     $(".event-details-container").hide();
@@ -60,8 +59,7 @@ $(() => {
     }
 
     // return error message if no date is chosen
-    console.log("Not there");
-    $(".timing-error").show().html("At least 1 timing is required").fadeOut(2500)
+    $(".timing-error").show().html("At least 1 date is required").fadeOut(2500);
 
     // form input as object;
 
