@@ -51,7 +51,7 @@ $(() => {
         $form.trigger("reset");
         // send url to /email
         if (data.event_link_for_self) {
-          $.post('/email', url);
+          $.post('/email', body);
         }
         // refresh page after request
         window.location.replace(`/events/${url}`);
