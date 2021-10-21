@@ -11,7 +11,7 @@ const auth = {
 const transporter = nodemailer.createTransport(mailGun(auth));
 
 
-const sendMail = (email, creatorName, uniqueUrl, cb) => {
+const sendMail = (email, creatorName, uniqueUrl,) => {
 
   const mailOptions = {
     from: 'schoodle.midterm@gmail.com',
@@ -22,9 +22,11 @@ const sendMail = (email, creatorName, uniqueUrl, cb) => {
 
   transporter.sendMail(mailOptions, function(err, data) {
     if (err) {
-      cb(err, null);
+      console.log(err)
+      // cb(err, null);
     } else {
-      cb(null, data);
+      console.log(data)
+      // cb(null, data);
     }
   });
 
